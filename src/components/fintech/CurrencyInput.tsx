@@ -1,22 +1,109 @@
 'use client'
 
-import { forwardRef, type ComponentPropsWithoutRef, type ReactNode, useState, useCallback } from 'react'
+import React, { forwardRef, type ComponentPropsWithoutRef, type ReactNode, useState, useCallback } from 'react'
+import { motion } from 'framer-motion'
+import { ChevronDownIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
+interface CurrencyInputContextValue {
+  currency: string
+  setCurrency: (currency: string) => void
+}
+
+const CurrencyInputContext = React.createContext<CurrencyInputContextValue | null>(null)
+
+function useCurrencyInputContext() {
+  const context = React.useContext(CurrencyInputContext)
+  if (!context) {
+    throw new Error('CurrencyInput components must be used within CurrencyInput.Root')
+  }
+  return context
+}
+
+const currencies = [
+  { code: 'USD', symbol: '$', name: 'US Dollar' },
+  { code: 'EUR', symbol: '€', name: 'Euro' },
+  { code: 'GBP', symbol: '£', name: 'British Pound' },
+  { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+]
 
 const CurrencyInputRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'> & {
   children: ReactNode
+  currency?: string
+  onCurrencyChange?: (currency: string) => void
+}>(
+  ({ className, children, currency = 'USD', onCurrencyChange, ...props }, ref) => {
+    const [selectedCurrency, setSelectedCurrency] = useState(currency)
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handleCurrencyChange = useCallback((newCurrency: string) => {
+      setSelectedCurrency(newCurrency)
+      onCurrencyChange?.(newCurrency)
+      setIsOpen(false)
+    }, [onCurrencyChange])
+
+    return (
+      <CurrencyInputContext.Provider value={{ currency: selectedCurrency, setCurrency: handleCurrencyChange }}>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div
+            ref={ref}
+            className={cn('relative flex items-center w-full min-w-0 bg-surface border border-[#242424] rounded-xl overflow-visible', className)}
+            {...props}
+          >
+          {children}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex h-full items-center gap-2 px-4 bg-surface border-l border-[#242424] hover:bg-border/30 transition-colors"
+            >
+              <span className="text-foreground font-medium">{currencies.find(c => c.code === selectedCurrency)?.symbol}</span>
+              <ChevronDownIcon className="h-4 w-4 text-foreground-secondary" />
+            </button>
+            {isOpen && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="absolute right-0 top-full mt-1 bg-surface border border-[#242424] rounded-lg shadow-lg z-[100] min-w-[120px]"
+              >
+                {currencies.map((curr) => (
+                  <button
+                    key={curr.code}
+                    onClick={() => handleCurrencyChange(curr.code)}
+                    className="w-full px-3 py-2 text-left hover:bg-border/30 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{curr.symbol}</span>
+                      <span className="text-sm text-foreground-secondary">{curr.code}</span>
+                    </div>
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </div>
+          </div>
+        </motion.div>
+      </CurrencyInputContext.Provider>
+    )
+  }
+)
+CurrencyInputRoot.displayName = 'CurrencyInput.Root'
+
+const CurrencyInputAddon = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'> & {
+  children: ReactNode
 }>(
   ({ className, children, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn('relative flex items-center', className)}
-      {...props}
-    >
+    <div ref={ref} className={cn('flex items-center px-4 py-3 text-foreground-secondary', className)} {...props}>
       {children}
     </div>
   )
 )
-CurrencyInputRoot.displayName = 'CurrencyInput.Root'
+CurrencyInputAddon.displayName = 'CurrencyInput.Addon'
 
 const CurrencyInputField = forwardRef<HTMLInputElement, ComponentPropsWithoutRef<'input'> & {
   value: string
@@ -24,6 +111,46 @@ const CurrencyInputField = forwardRef<HTMLInputElement, ComponentPropsWithoutRef
   placeholder?: string
 }>(
   ({ className, value, onValueChange, placeholder, ...props }, ref) => {
+    const { currency } = useCurrencyInputContext()
+
+    const formatValue = useCallback((rawValue: string) => {
+      if (!rawValue) return ''
+      if (rawValue === '.') return '0.'
+      const rawNumber = rawValue.replace(/,/g, '')
+      if (rawNumber.endsWith('.')) {
+        const trimmed = rawNumber.slice(0, -1)
+        const intValue = parseFloat(trimmed)
+        if (isNaN(intValue)) return rawValue
+        const formattedInt = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(intValue)
+        return `${formattedInt}.`
+      }
+      if (rawNumber.includes('.')) {
+        const [integerPart, decimalPart] = rawNumber.split('.')
+        const intValue = parseFloat(integerPart || '0')
+        if (isNaN(intValue)) return rawValue
+        const formattedInt = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(intValue)
+        return `${formattedInt}.${decimalPart}`
+      }
+      const numValue = parseFloat(rawNumber)
+      if (isNaN(numValue)) return rawValue
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }).format(numValue)
+    }, [currency])
+
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
       const rawValue = e.target.value.replace(/[^0-9.]/g, '')
       const parts = rawValue.split('.')
@@ -37,11 +164,11 @@ const CurrencyInputField = forwardRef<HTMLInputElement, ComponentPropsWithoutRef
         ref={ref}
         type="text"
         inputMode="decimal"
-        value={value}
+        value={formatValue(value)}
         onChange={handleChange}
         placeholder={placeholder}
         className={cn(
-          'flex-1 px-3 py-2 bg-surface border border-border rounded-lg text-foreground font-mono tabular-nums placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-success/20 focus:border-success',
+          'w-full min-w-0 px-4 py-3 bg-transparent text-3xl md:text-4xl font-mono font-bold text-foreground placeholder:text-foreground/40 focus:outline-none',
           className
         )}
         {...props}
@@ -51,26 +178,7 @@ const CurrencyInputField = forwardRef<HTMLInputElement, ComponentPropsWithoutRef
 )
 CurrencyInputField.displayName = 'CurrencyInput.Field'
 
-const CurrencyInputAddon = forwardRef<HTMLButtonElement, ComponentPropsWithoutRef<'button'> & {
-  children: ReactNode
-}>(
-  ({ className, children, ...props }, ref) => (
-    <button
-      ref={ref}
-      type="button"
-      className={cn(
-        'px-3 py-2 bg-surface border border-border border-l-0 rounded-r-lg text-foreground hover:bg-surface-hover transition-colors font-medium',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-)
-CurrencyInputAddon.displayName = 'CurrencyInput.Addon'
-
 export const CurrencyInput = Object.assign(CurrencyInputRoot, {
-  Field: CurrencyInputField,
   Addon: CurrencyInputAddon,
+  Field: CurrencyInputField,
 })

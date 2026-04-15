@@ -1,9 +1,11 @@
 'use client'
 
-import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react'
+import { forwardRef, type ComponentPropsWithoutRef, type ReactNode, useMemo, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 type EntityType = 'merchant' | 'user'
+
+const avatarPalette = ['#1f2937', '#263546', '#334155', '#374151', '#475569', '#1e293b']
 
 const EntityAvatarRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'> & {
   type: EntityType
@@ -12,24 +14,41 @@ const EntityAvatarRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'di
   fallback?: ReactNode
   children?: ReactNode // for badge
 }>(
-  ({ type, src, alt, fallback, className, children, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        'relative flex items-center justify-center overflow-hidden',
-        type === 'merchant' ? 'rounded-lg' : 'rounded-full',
-        className
-      )}
-      {...props}
-    >
-      {src ? (
-        <img src={src} alt={alt ?? 'entity avatar'} className="w-full h-full object-cover" loading="lazy" />
-      ) : (
-        fallback ?? <span className="text-sm font-semibold uppercase text-foreground/80">?</span>
-      )}
-      {children}
-    </div>
-  )
+  ({ type, src, alt, fallback, className, children, ...props }, ref) => {
+    const [hasError, setHasError] = useState(false)
+    const fallbackLabel = typeof fallback === 'string' ? fallback : alt?.charAt(0).toUpperCase() ?? '?'
+    const backgroundColor = useMemo(() => {
+      const code = fallbackLabel.charCodeAt(0) || 0
+      return avatarPalette[code % avatarPalette.length]
+    }, [fallbackLabel])
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'relative flex-shrink-0 flex items-center justify-center overflow-hidden',
+          type === 'merchant' ? 'rounded-lg' : 'rounded-full',
+          className
+        )}
+        {...props}
+      >
+        {src && !hasError ? (
+          <img
+            src={src}
+            alt={alt ?? 'entity avatar'}
+            className="w-full h-full object-cover"
+            loading="lazy"
+            onError={() => setHasError(true)}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-foreground" style={{ backgroundColor }}>
+            {fallback ?? <span className="text-sm font-semibold uppercase">{fallbackLabel}</span>}
+          </div>
+        )}
+        {children}
+      </div>
+    )
+  }
 )
 EntityAvatarRoot.displayName = 'EntityAvatar.Root'
 

@@ -223,6 +223,14 @@ export interface Contact {
   initials: string
 }
 
+export interface Account {
+  id: string
+  balance: number
+  lastFour: string
+  provider: 'visa' | 'mastercard' | 'amex' | 'discover'
+  type: 'checking' | 'savings' | 'credit'
+}
+
 /**
  * Mock contacts for send money feature.
  */
@@ -262,6 +270,33 @@ export const mockContacts: Contact[] = [
     name: 'David Kim',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
     initials: 'DK',
+  },
+]
+
+/**
+ * Mock accounts for account selection feature.
+ */
+export const mockAccounts: Account[] = [
+  {
+    id: '1',
+    balance: 11624.2,
+    lastFour: '4321',
+    provider: 'visa',
+    type: 'checking',
+  },
+  {
+    id: '2',
+    balance: 8500.0,
+    lastFour: '8765',
+    provider: 'mastercard',
+    type: 'savings',
+  },
+  {
+    id: '3',
+    balance: 2500.0,
+    lastFour: '1234',
+    provider: 'amex',
+    type: 'credit',
   },
 ]
 

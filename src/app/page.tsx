@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { TransactionRow, TransactionDetailDrawer, SendMoneyModal, HeroBalanceCard, SpendingOverviewChart, StatCard, Stat, ThemeToggle } from '@/components'
-import { mockTransactions, mockDashboardStats, chartDataSets, type Transaction, type Contact } from '@/lib/mock-data'
+import { TransactionRow, TransactionDetailDrawer, SendMoneyModal, HeroBalanceCard, SpendingOverviewChart, StatCard, Stat, ThemeToggle, FintechSkeleton, EntityAvatar, UsageMeter, StatusTimeline, CurrencyInput, AccountCardSelector } from '@/components'
+import { mockTransactions, mockDashboardStats, chartDataSets, mockContacts, type Transaction, type Contact, type Account } from '@/lib/mock-data'
 import { usePrivacyToggle } from '@/hooks'
 import { formatCurrency, formatNumber } from '@/lib/formatters'
 import { TrendingUp, TrendingDown, Wallet, CreditCard, Plus, ArrowUpRight } from 'lucide-react'
@@ -29,6 +29,16 @@ export default function Dashboard() {
   const [detailOpen, setDetailOpen] = useState(false)
   const [sendMoneyOpen, setSendMoneyOpen] = useState(false)
   const [timeRange, setTimeRange] = useState<'day' | 'week' | 'month' | 'year'>('week')
+  const [isLoading, setIsLoading] = useState(true)
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
+
+  // Simulate data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1500)
+    return () => clearTimeout(timer)
+  }, [])
 
   // Dynamic balance trend data
   const balanceTrend = {
@@ -45,9 +55,14 @@ export default function Dashboard() {
     setDetailOpen(true)
   }
 
-  const handleSendMoney = (amount: number, recipient: Contact) => {
-    console.log(`Sending $${amount} to ${recipient.name}`)
+  const handleSendMoney = (amount: number, recipient: Contact, account: Account) => {
+    console.log(`Sending $${amount} to ${recipient.name} from ${account.provider} •••• ${account.lastFour}`)
     // Here you would integrate with your payment API
+  }
+
+  const handleQuickPay = (contact: Contact) => {
+    setSelectedContact(contact)
+    setSendMoneyOpen(true)
   }
 
   const handleVerifyPin = async (pin: string): Promise<boolean> => {
@@ -61,21 +76,27 @@ export default function Dashboard() {
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
-      {/* Header */}
-      <motion.div variants={item} className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-foreground-secondary mt-1">
-            Welcome back! Here's your financial overview.
-          </p>
+      {isLoading ? (
+        <div className="flex items-center justify-center py-24">
+          <FintechSkeleton.BalanceCard className="w-full max-w-2xl" />
         </div>
-        <ThemeToggle />
-      </motion.div>
+      ) : (
+        <>
+          {/* Header */}
+          <motion.div variants={item} className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+              <p className="text-foreground-secondary mt-1">
+                Welcome back! Here's your financial overview.
+              </p>
+            </div>
+            <ThemeToggle />
+          </motion.div>
 
       {/* Bento Grid Layout */}
       <motion.div
         variants={item}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
       >
         {/* Total Balance Card */}
         <Stat.Root>
@@ -124,6 +145,16 @@ export default function Dashboard() {
             <Stat.Trend change={8.3} format="percentage" />
           </div>
         </Stat.Root>
+
+        {/* Account Health Card */}
+        <div className="p-6 bg-surface border border-border rounded-xl">
+          <UsageMeter
+            current={750}
+            limit={1000}
+            label="Monthly Budget"
+            warningThreshold={0.8}
+          />
+        </div>
       </motion.div>
 
       {/* Main Content Grid */}
@@ -150,35 +181,65 @@ export default function Dashboard() {
           </HeroBalanceCard>
         </div>
 
-        {/* Spending Chart - Takes 1 column */}
-        <div className="p-6 bg-surface border border-border rounded-xl">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-1">Balance Trend</h3>
-              <p className="text-sm text-foreground-secondary">Last 7 days</p>
+        {/* Quick Pay Section */}
+        <div className="space-y-4">
+          <div className="p-6 bg-surface border border-border rounded-xl">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Quick Pay</h3>
+            <div className="grid grid-cols-2 gap-4 justify-between">
+              {mockContacts.slice(0, 4).map((contact) => (
+                <motion.button
+                  key={contact.id}
+                  type="button"
+                  onClick={() => handleQuickPay(contact)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex flex-col items-center justify-between gap-3 rounded-3xl border border-border bg-surface p-4 text-center transition-all hover:border-success/40"
+                >
+                  <EntityAvatar
+                    type="user"
+                    src={contact.avatar}
+                    alt={contact.name}
+                    fallback={contact.initials}
+                    className="w-12 h-12"
+                  />
+                  <span className="text-sm text-foreground-secondary truncate">
+                    {contact.name.split(' ')[0]}
+                  </span>
+                </motion.button>
+              ))}
             </div>
           </div>
 
-          {/* Time Range Selector */}
-          <div className="flex gap-2 mb-4">
-            {['day', 'week', 'month', 'year'].map((range) => (
-              <motion.button
-                key={range}
-                onClick={() => setTimeRange(range as any)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                  timeRange === range
-                    ? 'bg-success text-black'
-                    : 'bg-surface-hover text-foreground-secondary hover:text-foreground'
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {range.charAt(0).toUpperCase() + range.slice(1)}
-              </motion.button>
-            ))}
-          </div>
+          {/* Spending Chart */}
+          <div className="p-6 bg-surface border border-border rounded-xl">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-1">Balance Trend</h3>
+                <p className="text-sm text-foreground-secondary">Last 7 days</p>
+              </div>
+            </div>
 
-          <SpendingOverviewChart data={chartData} />
+            {/* Time Range Selector */}
+            <div className="flex gap-2 mb-4">
+              {['day', 'week', 'month', 'year'].map((range) => (
+                <motion.button
+                  key={range}
+                  onClick={() => setTimeRange(range as any)}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                    timeRange === range
+                      ? 'bg-success text-black'
+                      : 'bg-surface-hover text-foreground-secondary hover:text-foreground'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {range.charAt(0).toUpperCase() + range.slice(1)}
+                </motion.button>
+              ))}
+            </div>
+
+            <SpendingOverviewChart data={chartData} />
+          </div>
         </div>
       </motion.div>
 
@@ -228,10 +289,18 @@ export default function Dashboard() {
       />
       <SendMoneyModal
         open={sendMoneyOpen}
-        onOpenChange={setSendMoneyOpen}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) {
+            setSelectedContact(null)
+          }
+          setSendMoneyOpen(isOpen)
+        }}
         onSend={handleSendMoney}
         onVerifyPin={handleVerifyPin}
+        initialRecipient={selectedContact ?? undefined}
       />
+        </>
+      )}
     </motion.div>
   )
 }

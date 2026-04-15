@@ -1,56 +1,45 @@
 'use client'
 
 import * as Dialog from '@radix-ui/react-dialog'
-import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion'
+import { AnimatePresence, motion, useMotionValue, useTransform, PanInfo } from 'framer-motion'
 import { useState, useRef, useEffect } from 'react'
-import { X, Delete, ArrowRight, Check } from 'lucide-react'
+import { X, ArrowRight, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatCurrency } from '@/lib/formatters'
-import { mockContacts, type Contact } from '@/lib/mock-data'
+import { mockContacts, type Contact, mockAccounts, type Account } from '@/lib/mock-data'
 import { PinInput } from './PinInput'
+import { CurrencyInput } from './CurrencyInput'
+import { AccountCardSelector } from './AccountCardSelector'
 
 interface SendMoneyModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSend?: (amount: number, recipient: Contact) => void
+  onSend?: (amount: number, recipient: Contact, account: Account) => void
   onVerifyPin?: (pin: string) => Promise<boolean>
+  initialRecipient?: Contact
 }
 
-type Step = 'amount' | 'recipient' | 'security' | 'confirm'
+type Step = 'amount' | 'recipient' | 'account' | 'security' | 'confirm'
 
 const quickAmounts = [10, 20, 50]
-const CORRECT_PIN = '1234' // For demo purposes
 
 
 function AmountStep({
   amount,
   onAmountChange,
-  onNext
+  onNext,
+  onCancel,
+  hasQuickPay = false
 }: {
   amount: string
   onAmountChange: (value: string) => void
   onNext: () => void
+  onCancel?: () => void
+  hasQuickPay?: boolean
 }) {
   const handleQuickAmount = (value: number) => {
     onAmountChange(value.toString())
   }
-
-  const handleKeyPress = (key: string) => {
-    if (key === 'backspace') {
-      onAmountChange(amount.slice(0, -1))
-    } else if (key === '.' && !amount.includes('.')) {
-      onAmountChange(amount + key)
-    } else if (/^\d$/.test(key)) {
-      onAmountChange(amount + key)
-    }
-  }
-
-  const keypadKeys = [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9'],
-    ['.', '0', 'backspace']
-  ]
 
   return (
     <div className="space-y-8">
@@ -59,20 +48,15 @@ function AmountStep({
         <p className="text-foreground/60">Enter the amount you want to send</p>
       </div>
 
-      <div className="relative">
-        <div className="text-center">
-          <div className="inline-flex items-baseline">
-            <span className="text-4xl font-mono text-success mr-2">$</span>
-            <input
-              type="text"
-              value={amount}
-              onChange={(e) => onAmountChange(e.target.value.replace(/[^0-9.]/g, ''))}
-              className="text-4xl font-mono bg-transparent border-none outline-none text-foreground placeholder-foreground/30 text-center w-48"
-              placeholder="0.00"
-              autoFocus
-            />
-          </div>
-        </div>
+      <div className="w-full">
+        <CurrencyInput currency="USD" onCurrencyChange={() => {}} className="w-full">
+          <CurrencyInput.Field
+            autoFocus
+            value={amount}
+            onValueChange={onAmountChange}
+            placeholder="0.00"
+          />
+        </CurrencyInput>
       </div>
 
       <div className="flex justify-center gap-3">
@@ -89,38 +73,27 @@ function AmountStep({
         ))}
       </div>
 
-      <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
-        {keypadKeys.map((row, rowIndex) =>
-          row.map((key) => (
-            <motion.button
-              key={key}
-              onClick={() => handleKeyPress(key)}
-              className={cn(
-                "aspect-square rounded-2xl bg-surface border border-border text-foreground font-mono text-xl hover:bg-surface-hover transition-colors flex items-center justify-center",
-                key === 'backspace' && "text-foreground/60"
-              )}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {key === 'backspace' ? (
-                <Delete className="w-5 h-5" />
-              ) : (
-                key
-              )}
-            </motion.button>
-          ))
-        )}
+      <div className="flex gap-3">
+        {hasQuickPay ? (
+          <motion.button
+            onClick={onCancel}
+            className="flex-1 py-4 bg-surface border border-border text-foreground font-semibold rounded-2xl hover:bg-surface-hover transition-colors"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Cancel
+          </motion.button>
+        ) : null}
+        <motion.button
+          onClick={onNext}
+          disabled={!amount || parseFloat(amount) <= 0}
+          className="flex-1 py-4 bg-success text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Continue
+        </motion.button>
       </div>
-
-      <motion.button
-        onClick={onNext}
-        disabled={!amount || parseFloat(amount) <= 0}
-        className="w-full py-4 bg-success text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        Continue
-      </motion.button>
     </div>
   )
 }
@@ -191,6 +164,60 @@ function RecipientStep({
         <motion.button
           onClick={onNext}
           disabled={!selectedRecipient}
+          className="flex-1 py-4 bg-success text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Continue
+        </motion.button>
+      </div>
+    </div>
+  )
+}
+
+function AccountStep({
+  selectedAccount,
+  onAccountSelect,
+  onNext,
+  onBack
+}: {
+  selectedAccount: Account | null
+  onAccountSelect: (account: Account) => void
+  onNext: () => void
+  onBack: () => void
+}) {
+  return (
+    <div className="space-y-8">
+      <div className="text-center">
+        <h2 className="text-2xl font-semibold text-foreground mb-2">Select Account</h2>
+        <p className="text-foreground/60">Choose funding source for this transfer</p>
+      </div>
+
+      <div className="space-y-3">
+        {mockAccounts.map((account) => (
+          <AccountCardSelector
+            key={account.id}
+            balance={account.balance}
+            lastFour={account.lastFour}
+            provider={account.provider}
+            isSelected={selectedAccount?.id === account.id}
+            onSelect={() => onAccountSelect(account)}
+          />
+        ))}
+      </div>
+
+      <div className="flex gap-3">
+        <motion.button
+          onClick={onBack}
+          className="flex-1 py-4 bg-surface border border-border text-foreground font-semibold rounded-2xl hover:bg-surface-hover transition-colors"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Back
+        </motion.button>
+        <motion.button
+          onClick={onNext}
+          disabled={!selectedAccount}
           className="flex-1 py-4 bg-success text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
@@ -325,11 +352,13 @@ function SecurityStep({
 function ConfirmStep({
   amount,
   recipient,
+  account,
   onConfirm,
   onBack
 }: {
   amount: string
   recipient: Contact
+  account: Account
   onConfirm: () => void
   onBack: () => void
 }) {
@@ -376,6 +405,18 @@ function ConfirmStep({
             <span className="text-foreground font-medium">{recipient.name}</span>
           </div>
         </div>
+        <div className="flex items-center justify-between">
+          <span className="text-foreground-secondary">From</span>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+              <span className="text-lg">💳</span>
+            </div>
+            <div className="text-right">
+              <div className="text-sm font-medium text-foreground capitalize">{account.provider}</div>
+              <div className="text-xs text-foreground-secondary">•••• {account.lastFour}</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -404,7 +445,15 @@ function ConfirmStep({
             >
               <ArrowRight className="w-6 h-6 text-success" />
             </motion.div>
-            <span className="text-black font-semibold text-lg ml-16">Swipe to Send</span>
+            <motion.span
+              className="relative text-black font-semibold text-lg ml-16"
+              initial={{ opacity: 0.9 }}
+              animate={{ backgroundPosition: ['-150% 0%', '150% 0%'] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              style={{ backgroundImage: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', color: 'transparent' }}
+            >
+              Swipe to Send
+            </motion.span>
           </motion.div>
         </div>
       </div>
@@ -412,16 +461,37 @@ function ConfirmStep({
   )
 }
 
-export function SendMoneyModal({ open, onOpenChange, onSend, onVerifyPin }: SendMoneyModalProps) {
+export function SendMoneyModal({ open, onOpenChange, onSend, onVerifyPin, initialRecipient }: SendMoneyModalProps) {
   const [step, setStep] = useState<Step>('amount')
   const [amount, setAmount] = useState('')
   const [selectedRecipient, setSelectedRecipient] = useState<Contact | null>(null)
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      if (initialRecipient) {
+        setSelectedRecipient(initialRecipient)
+      }
+      setSelectedAccount((prev) => prev ?? mockAccounts[0] ?? null)
+    }
+  }, [open, initialRecipient])
+
+  const skipRecipientStep = Boolean(initialRecipient)
+
+  useEffect(() => {
+    if (open) {
+      setStep('amount')
+      setSelectedRecipient(initialRecipient ?? null)
+      setSelectedAccount((prev) => prev ?? mockAccounts[0] ?? null)
+    }
+  }, [open, initialRecipient])
 
   const resetModal = () => {
     setStep('amount')
     setAmount('')
     setSelectedRecipient(null)
+    setSelectedAccount(null)
     setIsLoading(false)
   }
 
@@ -434,8 +504,14 @@ export function SendMoneyModal({ open, onOpenChange, onSend, onVerifyPin }: Send
 
   const handleNext = () => {
     if (step === 'amount') {
-      setStep('recipient')
+      if (skipRecipientStep) {
+        setStep('account')
+      } else {
+        setStep('recipient')
+      }
     } else if (step === 'recipient') {
+      setStep('account')
+    } else if (step === 'account') {
       setStep('security')
     } else if (step === 'security') {
       setStep('confirm')
@@ -443,20 +519,38 @@ export function SendMoneyModal({ open, onOpenChange, onSend, onVerifyPin }: Send
   }
 
   const handleBack = () => {
+    if (step === 'amount' && skipRecipientStep) {
+      handleOpenChange(false)
+      return
+    }
+
     if (step === 'recipient') {
       setStep('amount')
+    } else if (step === 'account') {
+      setStep('recipient')
     } else if (step === 'security') {
-      setStep('recipient')
+      setStep('account')
     } else if (step === 'confirm') {
-      setStep('recipient')
+      setStep('account')
     }
   }
 
   const handleConfirm = () => {
-    if (selectedRecipient && amount) {
-      onSend?.(parseFloat(amount), selectedRecipient)
+    if (selectedRecipient && selectedAccount && amount) {
+      onSend?.(parseFloat(amount), selectedRecipient, selectedAccount)
       handleOpenChange(false)
     }
+  }
+
+  const verifyPin = async (pin: string) => {
+    if (!onVerifyPin) {
+      return pin === '1234'
+    }
+
+    setIsLoading(true)
+    const isValid = await onVerifyPin(pin)
+    setIsLoading(false)
+    return isValid
   }
 
   return (
@@ -478,11 +572,12 @@ export function SendMoneyModal({ open, onOpenChange, onSend, onVerifyPin }: Send
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
           >
-            <div className="bg-surface border border-border rounded-3xl p-6 shadow-2xl">
+            <motion.div className="bg-surface border border-border rounded-3xl p-6 shadow-2xl max-w-md overflow-visible mx-auto" layout>
               <div className="flex items-center justify-between mb-6">
                 <Dialog.Title className="text-xl font-semibold text-foreground">
                   {step === 'amount' && 'Enter Amount'}
                   {step === 'recipient' && 'Choose Recipient'}
+                  {step === 'account' && 'Select Account'}
                   {step === 'security' && 'Security Check'}
                   {step === 'confirm' && 'Confirm Transfer'}
                 </Dialog.Title>
@@ -497,41 +592,95 @@ export function SendMoneyModal({ open, onOpenChange, onSend, onVerifyPin }: Send
                 </Dialog.Close>
               </div>
 
-              {step === 'amount' && (
-                <AmountStep
-                  amount={amount}
-                  onAmountChange={setAmount}
-                  onNext={handleNext}
-                />
-              )}
+              <AnimatePresence mode="wait">
+                {step === 'amount' && (
+                  <motion.div
+                    key="amount"
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    <AmountStep
+                      amount={amount}
+                      onAmountChange={setAmount}
+                      onNext={handleNext}
+                      onCancel={() => handleOpenChange(false)}
+                      hasQuickPay={skipRecipientStep}
+                    />
+                  </motion.div>
+                )}
 
-              {step === 'recipient' && (
-                <RecipientStep
-                  selectedRecipient={selectedRecipient}
-                  onRecipientSelect={setSelectedRecipient}
-                  onNext={handleNext}
-                  onBack={handleBack}
-                />
-              )}
+                {step === 'recipient' && (
+                  <motion.div
+                    key="recipient"
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    <RecipientStep
+                      selectedRecipient={selectedRecipient}
+                      onRecipientSelect={setSelectedRecipient}
+                      onNext={handleNext}
+                      onBack={handleBack}
+                    />
+                  </motion.div>
+                )}
 
-              {step === 'security' && (
-                <SecurityStep
-                  onConfirm={handleNext}
-                  onBack={handleBack}
-                  onVerifyPin={onVerifyPin}
-                  isLoading={isLoading}
-                />
-              )}
+                {step === 'account' && (
+                  <motion.div
+                    key="account"
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    <AccountStep
+                      selectedAccount={selectedAccount}
+                      onAccountSelect={setSelectedAccount}
+                      onNext={handleNext}
+                      onBack={handleBack}
+                    />
+                  </motion.div>
+                )}
 
-              {step === 'confirm' && (
-                <ConfirmStep
-                  amount={amount}
-                  recipient={selectedRecipient!}
-                  onConfirm={handleConfirm}
-                  onBack={handleBack}
-                />
-              )}
-            </div>
+                {step === 'security' && (
+                  <motion.div
+                    key="security"
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    <SecurityStep
+                      onConfirm={handleNext}
+                      onBack={handleBack}
+                      onVerifyPin={verifyPin}
+                      isLoading={isLoading}
+                    />
+                  </motion.div>
+                )}
+
+                {step === 'confirm' && selectedAccount && selectedRecipient && (
+                  <motion.div
+                    key="confirm"
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    <ConfirmStep
+                      amount={amount}
+                      recipient={selectedRecipient}
+                      account={selectedAccount}
+                      onConfirm={handleConfirm}
+                      onBack={handleBack}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </motion.div>
         </Dialog.Content>
       </Dialog.Portal>

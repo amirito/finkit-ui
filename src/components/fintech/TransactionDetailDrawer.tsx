@@ -6,6 +6,7 @@ import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatCurrency } from '@/lib/formatters'
 import type { Transaction } from '@/lib/mock-data'
+import { StatusTimeline } from './StatusTimeline'
 
 interface TransactionDetailDrawerProps {
   open: boolean
@@ -106,6 +107,33 @@ export function TransactionDetailDrawer({ open, transaction, onOpenChange }: Tra
               </div>
 
               <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
+                {/* Transaction Status Timeline */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-semibold text-foreground uppercase tracking-[0.25em]">
+                    Transaction Status
+                  </h3>
+                  <StatusTimeline>
+                    <StatusTimeline.Item
+                      title="Payment Initiated"
+                      description="Transaction started processing"
+                      state="success"
+                      timestamp="2:30 PM"
+                    />
+                    <StatusTimeline.Item
+                      title="Payment Processed"
+                      description="Funds transferred successfully"
+                      state="success"
+                      timestamp="2:31 PM"
+                    />
+                    <StatusTimeline.Item
+                      title={transaction.status === 'cleared' ? 'Payment Completed' : 'Payment Pending'}
+                      description={transaction.status === 'cleared' ? 'Transaction completed successfully' : 'Awaiting final confirmation'}
+                      state={transaction.status === 'cleared' ? 'success' : 'pending'}
+                      timestamp="2:32 PM"
+                    />
+                  </StatusTimeline>
+                </div>
+
                 <div className="space-y-4">
                   <DataPoint label="Date" value={formatDate(transaction.date)} />
                   <DataPoint label="Category" value={transaction.category} />
