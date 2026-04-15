@@ -1,36 +1,310 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fintech-Kit
 
-## Getting Started
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.3-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.19-38B2AC)](https://tailwindcss.com/)
 
-First, run the development server:
+A modern, production-ready React component library designed specifically for fintech applications. Built with Next.js, TypeScript, and Tailwind CSS, featuring a sophisticated design system and flexible composition patterns.
 
+## ✨ Features
+
+### 🎯 Bento Grid Layout
+Responsive dashboard layouts with intelligent grid systems that adapt to different screen sizes and content types.
+
+### 🧩 Composition Pattern
+Flexible compound components that allow developers to compose complex UIs from simple, reusable parts. Each component exposes sub-components for maximum customization.
+
+### 🌙 Dark/Light Mode
+Built-in theme support with seamless switching between dark and light modes, ensuring accessibility and user preference compliance.
+
+### 🔒 Security-First Design
+Privacy toggles for sensitive financial data, secure PIN input components, and data protection patterns built-in.
+
+### 📊 Dynamic Data Visualization
+Interactive charts and graphs that accept dynamic data arrays, enabling real-time financial insights and analytics.
+
+### 🎨 Modern Design System
+Consistent color palette, typography, and spacing with a focus on financial aesthetics and user experience.
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) - React framework for production
+- **Language**: [TypeScript 5](https://www.typescriptlang.org/) - Type-safe JavaScript
+- **Styling**: [Tailwind CSS 3](https://tailwindcss.com/) - Utility-first CSS framework
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) - Production-ready motion library
+- **Icons**: [Lucide React](https://lucide.dev/) - Beautiful & consistent icon library
+- **UI Primitives**: [Radix UI](https://www.radix-ui.com/) - Unstyled, accessible UI components
+- **Build Tool**: Turbopack (via Next.js) - Fast bundler for development and production
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js >= 20.9.0
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/fintech-kit.git
+cd fintech-kit
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the demo dashboard.
 
-## Learn More
+### Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+fintech-kit/
+├── src/
+│   ├── app/                 # Next.js app directory
+│   ├── components/          # Reusable UI components
+│   │   └── fintech/         # Fintech-specific components
+│   ├── hooks/               # Custom React hooks
+│   ├── lib/                 # Utilities and helpers
+│   └── styles/              # Global styles
+├── public/                  # Static assets
+├── tailwind.config.ts       # Tailwind configuration
+├── tsconfig.json           # TypeScript configuration
+└── package.json            # Dependencies and scripts
+```
 
-## Deploy on Vercel
+## 🎨 Design System
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Color Palette
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```css
+--background: #050505;    /* Deep Black */
+--surface: #121212;       /* Card backgrounds */
+--border: #242424;        /* Borders & dividers */
+--success: #00DB87;       /* Success states */
+--brand: #3B82F6;         /* Primary brand blue */
+--error: #FF4B4B;         /* Error states */
+--warning: #F59E0B;       /* Warning states */
+```
+
+### Typography
+
+- **UI Font**: Inter (sans-serif)
+- **Code Font**: JetBrains Mono (monospace)
+
+## 📦 Usage
+
+Import components from the library:
+
+```typescript
+import {
+  HeroBalanceCard,
+  SpendingOverviewChart,
+  SendMoneyModal,
+  PinInput
+} from '@/components/fintech'
+```
+
+Use compound components for flexible composition:
+
+```tsx
+<HeroBalanceCard trend={{ label: 'from last month', value: '4.2%', direction: 'up' }}>
+  <HeroBalanceCard.Balance amount={2847.92} currency="USD" />
+  <HeroBalanceCard.Actions>
+    <HeroBalanceCard.Action
+      icon={<PlusIcon className="h-4 w-4" />}
+      label="Add Money"
+      onClick={handleAddMoney}
+    />
+  </HeroBalanceCard.Actions>
+</HeroBalanceCard>
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
+- Icons by [Lucide](https://lucide.dev/)
+- UI primitives by [Radix UI](https://www.radix-ui.com/)
+cn('px-2 py-1', 'px-4') // Result: 'py-1 px-4'
+```
+
+### Formatters (`src/lib/formatters.ts`)
+
+```typescript
+import { formatCurrency, formatNumber, formatPercentage } from '@/lib/formatters'
+
+formatCurrency(1234.56)           // '$1,234.56'
+formatCurrency(1234.56, 'EUR')    // '€1,234.56'
+formatNumber(1000000)              // '1,000,000'
+formatPercentage(25.5)             // '25.5%'
+```
+
+### Hooks
+
+#### `usePrivacyToggle()`
+
+```typescript
+import { usePrivacyToggle } from '@/hooks'
+
+const { isVisible, toggle } = usePrivacyToggle(true)
+// Shows/hides sensitive data like balance
+```
+
+#### `useCurrency()`
+
+```typescript
+import { useCurrency } from '@/hooks'
+
+const { currency, format, changeCurrency } = useCurrency('USD')
+format(1234.56) // '$1,234.56'
+changeCurrency('EUR')
+```
+
+### Mock Data (`src/lib/mock-data.ts`)
+
+Provides:
+- `mockTransactions` - Array of realistic fintech transactions
+- `mockBalanceHistory` - 30-day balance history for charts
+- `mockDashboardStats` - Summary statistics
+
+## 🎯 Core Components
+
+### TransactionRow
+
+Display individual transactions with status badges and subscription indicators.
+
+```tsx
+<TransactionRow
+  merchant="Netflix"
+  category="Entertainment"
+  subText="Monthly subscription"
+  amount={-15.99}
+  status="cleared"
+  isSubscription
+/>
+```
+
+### HeroBalanceCard
+
+Display the main balance with visibility toggle and action buttons.
+
+```tsx
+<HeroBalanceCard
+  balance={12345.67}
+  isVisible={isVisible}
+  onToggleVisibility={toggle}
+  onAddMoney={() => {}}
+  onSend={() => {}}
+/>
+```
+
+### SpendingOverviewChart
+
+Animated line chart showing balance trends.
+
+```tsx
+<SpendingOverviewChart />
+```
+
+## 🎨 Tailwind Configuration
+
+The Tailwind config includes:
+- Custom fintech color palette
+- Font family setup for Inter and JetBrains Mono
+- Gradient utilities for mesh backgrounds
+- Extended theme for fintech-specific needs
+
+## 🔧 Configuration Files
+
+### `tailwind.config.ts`
+- Content paths configured for `src/` directory
+- Extended theme with fintech colors
+- Custom font family variables
+
+### `tsconfig.json`
+- Path alias: `@/*` → `./src/*`
+- Strict mode enabled
+- React JSX optimized
+
+### `next.config.ts`
+- Standard Next.js 15 configuration
+- Ready for deployment
+
+## 📚 Package Dependencies
+
+```json
+{
+  "next": "^16.0.0",
+  "react": "^19.0.0",
+  "react-dom": "^19.0.0",
+  "tailwindcss": "^3.4.19",
+  "framer-motion": "^12.0.0",
+  "lucide-react": "^1.8.0",
+  "clsx": "^2.1.1",
+  "tailwind-merge": "^3.5.0"
+}
+```
+
+## 🌟 Features
+
+✅ **Dark Mode First** - Premium dark theme optimized for fintech
+✅ **Responsive Design** - Mobile, tablet, and desktop support
+✅ **Animations** - Smooth Framer Motion animations
+✅ **Type Safe** - Full TypeScript support
+✅ **Accessible** - WCAG compliant components
+✅ **Mock Data** - Ready-to-use demo data
+✅ **Modular** - Component-based architecture
+✅ **Extensible** - Easy to customize and add new components
+
+## 📖 Development Workflow
+
+1. **Create new components** in `src/components/fintech/`
+2. **Export from index** in `src/components/fintech/index.ts`
+3. **Add utilities** in `src/lib/` as needed
+4. **Create hooks** in `src/hooks/` for reusable logic
+5. **Test with mock data** from `src/lib/mock-data.ts`
+
+## 🚢 Deployment
+
+The project is ready to deploy to:
+- **Vercel** (recommended for Next.js)
+- **Netlify**
+- **Any Node.js hosting provider**
+
+## 📄 License
+
+Built as a modern fintech component library for premium applications.
+
+## 🤝 Contributing
+
+This is a solo developer project. Feel free to fork and customize for your needs.
+
+---
+
+**Last Updated**: April 13, 2026
