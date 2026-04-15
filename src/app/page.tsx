@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { TransactionRow, TransactionDetailDrawer, SendMoneyModal, HeroBalanceCard, SpendingOverviewChart, StatCard, Stat, ThemeToggle, FintechSkeleton, EntityAvatar, UsageMeter, StatusTimeline, CurrencyInput, AccountCardSelector } from '@/components'
-import { mockTransactions, mockDashboardStats, chartDataSets, mockContacts, type Transaction, type Contact, type Account } from '@/lib/mock-data'
+import { AnimatePresence, motion } from 'framer-motion'
+import { TransactionRow, TransactionDetailDrawer, SendMoneyModal, AddMoneyModal, HeroBalanceCard, SpendingOverviewChart, StatCard, Stat, ThemeToggle, FintechSkeleton, EntityAvatar, UsageMeter, StatusTimeline, CurrencyInput, AccountCardSelector } from '@/components'
+import { mockTransactions, mockDashboardStats, chartDataSets, mockContacts, mockBankAccounts, type Transaction, type Contact, type Account } from '@/lib/mock-data'
 import { usePrivacyToggle } from '@/hooks'
 import { formatCurrency, formatNumber } from '@/lib/formatters'
 import { TrendingUp, TrendingDown, Wallet, CreditCard, Plus, ArrowUpRight } from 'lucide-react'
@@ -28,6 +28,7 @@ export default function Dashboard() {
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
   const [sendMoneyOpen, setSendMoneyOpen] = useState(false)
+  const [isAddMoneyModalOpen, setIsAddMoneyModalOpen] = useState(false)
   const [timeRange, setTimeRange] = useState<'day' | 'week' | 'month' | 'year'>('week')
   const [isLoading, setIsLoading] = useState(true)
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
@@ -63,6 +64,10 @@ export default function Dashboard() {
   const handleQuickPay = (contact: Contact) => {
     setSelectedContact(contact)
     setSendMoneyOpen(true)
+  }
+
+  const handleCloseAddMoneyModal = () => {
+    setIsAddMoneyModalOpen(false)
   }
 
   const handleVerifyPin = async (pin: string): Promise<boolean> => {
@@ -170,7 +175,7 @@ export default function Dashboard() {
               <HeroBalanceCard.Action
                 icon={<Plus className="h-4 w-4" />}
                 label="Add Money"
-                onClick={() => console.log('Add money')}
+                onClick={() => setIsAddMoneyModalOpen(true)}
               />
               <HeroBalanceCard.Action
                 icon={<ArrowUpRight className="h-4 w-4" />}
@@ -299,6 +304,19 @@ export default function Dashboard() {
         onVerifyPin={handleVerifyPin}
         initialRecipient={selectedContact ?? undefined}
       />
+      <AnimatePresence>
+        {isAddMoneyModalOpen && (
+          <AddMoneyModal
+            isOpen={isAddMoneyModalOpen}
+            onClose={handleCloseAddMoneyModal}
+            linkedAccounts={mockBankAccounts}
+            currentBalance={mockDashboardStats.totalBalance}
+            onAdd={(amount, account) => {
+              console.log(`Adding $${amount} to ${account.provider} •••• ${account.lastFour}`)
+            }}
+          />
+        )}
+      </AnimatePresence>
         </>
       )}
     </motion.div>

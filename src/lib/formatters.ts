@@ -24,6 +24,20 @@ export function formatCurrency(
   }).format(amount)
 }
 
+export function formatAmount(
+  amount: number,
+  currency: string = 'USD',
+  locale: string = 'en-US'
+): string {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    useGrouping: true,
+  }).format(amount)
+}
+
 /**
  * Format a number as a percentage.
  *

@@ -300,10 +300,8 @@ export const mockAccounts: Account[] = [
   },
 ]
 
-/**
- * Summary stats for the dashboard.
- * These would normally come from an API.
- */
+export const mockBankAccounts = mockAccounts
+
 export const mockDashboardStats = {
   totalBalance: 11624.2,
   monthlySpending: 468.69,
