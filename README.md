@@ -39,12 +39,14 @@ Consistent color palette, typography, and spacing with a focus on financial aest
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Tech Requirements
 
-- Node.js >= 20.9.0
-- npm or yarn package manager
+- React 18+
+- Next.js 14+
+- Tailwind CSS
+- Framer Motion
 
-### Installation
+### Install and Run
 
 1. Clone the repository:
 ```bash
@@ -57,12 +59,73 @@ cd fintech-kit
 npm install
 ```
 
-3. Start the development server:
+3. Run the development server:
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the demo dashboard.
+4. Open the app in your browser:
+```bash
+http://localhost:3000
+```
+
+### Use FinKit in your project
+
+If you want to reuse FinKit components in another project, copy the `src/components/fintech` folder into your local codebase and then import the components:
+
+```tsx
+import { HeroBalanceCard, AddMoneyModal } from '@/components/fintech'
+
+export default function Dashboard() {
+  return (
+    <div>
+      <HeroBalanceCard
+        trend={{ label: 'from last month', value: '4.2%', direction: 'up' }}
+      >
+        <HeroBalanceCard.Balance amount={12450.0} currency="USD" />
+        <HeroBalanceCard.Actions>
+          <HeroBalanceCard.Action
+            icon={<span>+</span>}
+            label="Add Money"
+            onClick={() => console.log('open add money')}
+          />
+        </HeroBalanceCard.Actions>
+      </HeroBalanceCard>
+
+      <AddMoneyModal
+        isOpen={true}
+        onClose={() => console.log('close modal')}
+        linkedAccounts={[]}
+        currentBalance={12450}
+      />
+    </div>
+  )
+}
+```
+
+### Tailwind Theme Configuration
+
+Add the FinKit palette to your `tailwind.config.js` under `theme.extend.colors`:
+
+```js
+module.exports = {
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        background: '#050505',
+        surface: '#121212',
+        border: '#242424',
+        success: '#00DB87',
+        brand: '#3B82F6',
+      },
+    },
+  },
+  plugins: [],
+}
+```
+
+This configuration ensures FinKit components render with the same deep, modern palette used throughout the library.
 
 ### Available Scripts
 

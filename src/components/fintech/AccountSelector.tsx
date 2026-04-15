@@ -6,10 +6,15 @@ import { CheckIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { Account } from '@/lib/mock-data'
 
+interface AccountWithIcon extends Account {
+  bankLogoUrl?: string
+  cardIconUrl?: string
+}
+
 interface AccountSelectorProps {
-  accounts: Account[]
+  accounts: AccountWithIcon[]
   selectedAccountId?: string
-  onSelect: (account: Account) => void
+  onSelect: (account: AccountWithIcon) => void
 }
 
 const providerAccent: Record<Account['provider'], string> = {
@@ -31,6 +36,10 @@ export function AccountSelector({ accounts, selectedAccountId, onSelect }: Accou
     <div className="grid gap-3">
       {accounts.map((account) => {
         const isSelected = account.id === selectedAccountId
+        const logoSrc = account.bankLogoUrl ?? account.cardIconUrl
+        const primaryLabel = providerLabels[account.provider] ?? account.provider
+        const initial = primaryLabel.charAt(0).toUpperCase()
+
         return (
           <motion.button
             key={account.id}
@@ -39,21 +48,30 @@ export function AccountSelector({ accounts, selectedAccountId, onSelect }: Accou
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.98 }}
             className={cn(
-              'relative w-full overflow-hidden rounded-3xl border p-4 text-left transition-shadow focus:outline-none',
+              'relative w-full overflow-hidden rounded-3xl border p-4 text-left transition-shadow focus:outline-none min-w-0',
               providerAccent[account.provider],
               isSelected ? 'border-2 shadow-lg shadow-success/10 bg-surface' : 'border-border bg-surface',
             )}
           >
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-white/10 text-sm text-foreground">
-                    {account.provider.toUpperCase()}
-                  </span>
-                  <span className="text-sm font-semibold text-foreground">{providerLabels[account.provider]}</span>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#242424] text-white">
+                  {logoSrc ? (
+                    <img
+                      src={logoSrc}
+                      alt={primaryLabel}
+                      className="h-full w-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-lg font-mono font-semibold uppercase tracking-[0.06em]">
+                      {initial}
+                    </span>
+                  )}
                 </div>
-                <div className="text-xs uppercase tracking-[0.22em] text-foreground-secondary">
-                  •••• {account.lastFour}
+
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-foreground">{primaryLabel}</p>
+                  <p className="truncate text-xs uppercase tracking-[0.22em] text-foreground-secondary">•••• {account.lastFour}</p>
                 </div>
               </div>
 
