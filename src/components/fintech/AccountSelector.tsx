@@ -3,8 +3,8 @@
 import React, { type ComponentPropsWithoutRef } from 'react'
 import { motion } from 'framer-motion'
 import { CheckIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import type { Account } from '@/lib/mock-data'
+import { cn } from '../../lib/utils'
+import type { Account } from '../../lib/mock-data'
 
 interface AccountWithIcon extends Account {
   bankLogoUrl?: string

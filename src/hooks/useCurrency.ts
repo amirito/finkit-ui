@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { formatCurrency } from '@/lib/formatters'
+import { formatCurrency } from '../lib/formatters'
 
 export interface CurrencyConfig {
   code: string

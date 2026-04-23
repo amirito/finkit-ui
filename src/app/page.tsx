@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TransactionRow, TransactionDetailDrawer, SendMoneyModal, AddMoneyModal, HeroBalanceCard, SpendingOverviewChart, StatCard, Stat, ThemeToggle, FintechSkeleton, EntityAvatar, UsageMeter, StatusTimeline, CurrencyInput, AccountCardSelector } from '@/components'
-import { mockTransactions, mockDashboardStats, chartDataSets, mockContacts, mockBankAccounts, type Transaction, type Contact, type Account } from '@/lib/mock-data'
+import { mockTransactions, mockDashboardStats, chartDataSets, mockContacts, mockBankAccounts, type Transaction, type Contact, type Account } from '../lib/mock-data'
 import { usePrivacyToggle } from '@/hooks'
-import { formatCurrency, formatNumber } from '@/lib/formatters'
+import { formatCurrency, formatNumber } from '../lib/formatters'
 import { TrendingUp, TrendingDown, Wallet, CreditCard, Plus, ArrowUpRight } from 'lucide-react'
 
 const container = {

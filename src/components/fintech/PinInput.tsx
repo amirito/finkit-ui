@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, type ComponentPropsWithoutRef, useState, useCallback, useRef, useEffect } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 const PinInputRoot = forwardRef<HTMLDivElement, Omit<ComponentPropsWithoutRef<'div'>, 'onChange'> & {
   value: string

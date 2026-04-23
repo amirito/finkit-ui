@@ -3,7 +3,7 @@
 import React, { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import { motion } from 'framer-motion'
 import { CreditCardIcon, CheckIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 interface AccountCardSelectorProps extends ComponentPropsWithoutRef<'button'> {
   balance: number

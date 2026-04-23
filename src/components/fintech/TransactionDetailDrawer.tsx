@@ -3,9 +3,9 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { formatCurrency } from '@/lib/formatters'
-import type { Transaction } from '@/lib/mock-data'
+import { cn } from '../../lib/utils'
+import { formatCurrency } from '../../lib/formatters'
+import type { Transaction } from '../../lib/mock-data'
 import { StatusTimeline } from './StatusTimeline'
 
 interface TransactionDetailDrawerProps {

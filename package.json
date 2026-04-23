@@ -2,6 +2,16 @@
   "name": "finkit-ui",
   "version": "0.1.0",
   "private": true,
+  "main": "./src/components/fintech/index.ts", 
+  "module": "./src/components/fintech/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/components/fintech/index.ts",
+      "require": "./src/components/fintech/index.ts",
+      "types": "./src/components/fintech/index.ts"
+    },
+    "./finkit-preset": "./finkit-preset.js"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

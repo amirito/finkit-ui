@@ -3,7 +3,7 @@
 import React, { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import { motion } from 'framer-motion'
 import { AlertTriangleIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 interface UsageMeterProps extends ComponentPropsWithoutRef<'div'> {
   current: number

@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, type ComponentPropsWithoutRef } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 const FintechSkeletonTransaction = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
   ({ className, ...props }, ref) => (

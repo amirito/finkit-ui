@@ -3,8 +3,8 @@
 import { Eye, EyeOff } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { forwardRef, createContext, useContext, type ComponentPropsWithoutRef, type ReactNode } from 'react'
-import { cn } from '@/lib/utils'
-import { formatCurrency } from '@/lib/formatters'
+import { cn } from '../../lib/utils'
+import { formatCurrency } from '../../lib/formatters'
 
 interface BalanceCardRootProps extends ComponentPropsWithoutRef<'div'> {
   trend: {

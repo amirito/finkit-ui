@@ -3,7 +3,7 @@
 import React, { forwardRef, type ComponentPropsWithoutRef, type ReactNode, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronDownIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 interface CurrencyInputContextValue {
   currency: string
