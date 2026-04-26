@@ -122,3 +122,18 @@ body {
   color: var(--finkit-text-main);
   font-family: 'Inter', sans-serif;
 }
+
+.finkit-root,
+.finkit-root *,
+.finkit-root::before,
+.finkit-root::after,
+.finkit-root *::before,
+.finkit-root *::after {
+  box-sizing: border-box;
+}
+
+.finkit-root {
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+}

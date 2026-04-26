@@ -15,6 +15,8 @@ export function FinKitProvider({ children, theme = "dark" }: { children: React.R
       root.style.setProperty("--finkit-border", "rgba(255, 255, 255, 0.1)");
       root.style.setProperty("--finkit-text-main", "#ffffff");
       root.style.setProperty("--finkit-text-muted", "rgba(255, 255, 255, 0.5)");
+      root.style.setProperty("--finkit-error", "#ff4b4b");
+      root.style.setProperty("--finkit-danger", "var(--finkit-error)");
     } else {
       // Light mode defaults
       root.style.setProperty("--finkit-background", "#ffffff");
@@ -23,6 +25,8 @@ export function FinKitProvider({ children, theme = "dark" }: { children: React.R
       root.style.setProperty("--finkit-border", "rgba(0, 0, 0, 0.1)");
       root.style.setProperty("--finkit-text-main", "#09090b");
       root.style.setProperty("--finkit-text-muted", "#71717a");
+      root.style.setProperty("--finkit-error", "#dc2626");
+      root.style.setProperty("--finkit-danger", "var(--finkit-error)");
     }
   }, [theme]);
 
