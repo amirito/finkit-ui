@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <div className="flex h-screen bg-background text-foreground">
+        <div className="flex h-screen bg-[var(--finkit-background)] text-[var(--finkit-text-main)]">
           {/* Sidebar */}
           <Sidebar />
 

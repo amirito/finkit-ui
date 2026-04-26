@@ -90,8 +90,8 @@ export default function Dashboard() {
           {/* Header */}
           <motion.div variants={item} className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-              <p className="text-foreground-secondary mt-1">
+              <h1 className="text-3xl font-bold text-[var(--finkit-text-main)]">Dashboard</h1>
+              <p className="text-[var(--finkit-text-muted)] mt-1">
                 Welcome back! Here's your financial overview.
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function Dashboard() {
         <Stat.Root>
           <div className="flex items-center justify-between mb-3">
             <Stat.Label>Total Balance</Stat.Label>
-            <Wallet className="w-4 h-4 text-foreground-secondary group-hover:text-success transition-colors" />
+            <Wallet className="w-4 h-4 text-[var(--finkit-text-muted)] group-hover:text-[var(--finkit-primary)] transition-colors" />
           </div>
           <div className="space-y-2">
             <Stat.Value isVisible={isVisible}>{formatCurrency(mockDashboardStats.totalBalance)}</Stat.Value>
@@ -119,7 +119,7 @@ export default function Dashboard() {
         <Stat.Root>
           <div className="flex items-center justify-between mb-3">
             <Stat.Label>Monthly Spending</Stat.Label>
-            <TrendingDown className="w-4 h-4 text-foreground-secondary group-hover:text-success transition-colors" />
+            <TrendingDown className="w-4 h-4 text-[var(--finkit-text-muted)] group-hover:text-[var(--finkit-success)] transition-colors" />
           </div>
           <div className="space-y-2">
             <Stat.Value isVisible={isVisible}>{formatCurrency(mockDashboardStats.monthlySpending)}</Stat.Value>
@@ -131,7 +131,7 @@ export default function Dashboard() {
         <Stat.Root>
           <div className="flex items-center justify-between mb-3">
             <Stat.Label>Monthly Income</Stat.Label>
-            <TrendingUp className="w-4 h-4 text-foreground-secondary group-hover:text-success transition-colors" />
+            <TrendingUp className="w-4 h-4 text-[var(--finkit-text-muted)] group-hover:text-[var(--finkit-success)] transition-colors" />
           </div>
           <div className="space-y-2">
             <Stat.Value isVisible={isVisible}>{formatCurrency(mockDashboardStats.monthlyIncome)}</Stat.Value>
@@ -143,7 +143,7 @@ export default function Dashboard() {
         <Stat.Root>
           <div className="flex items-center justify-between mb-3">
             <Stat.Label>Savings Rate</Stat.Label>
-            <CreditCard className="w-4 h-4 text-foreground-secondary group-hover:text-success transition-colors" />
+            <CreditCard className="w-4 h-4 text-[var(--finkit-text-muted)] group-hover:text-[var(--finkit-success)] transition-colors" />
           </div>
           <div className="space-y-2">
             <Stat.Value isVisible={isVisible}>{formatNumber(mockDashboardStats.savingsRate)}%</Stat.Value>
@@ -152,7 +152,7 @@ export default function Dashboard() {
         </Stat.Root>
 
         {/* Account Health Card */}
-        <div className="p-6 bg-surface border border-border rounded-xl">
+        <div className="p-6 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-xl">
           <UsageMeter
             current={750}
             limit={1000}
@@ -188,8 +188,8 @@ export default function Dashboard() {
 
         {/* Quick Pay Section */}
         <div className="space-y-4">
-          <div className="p-6 bg-surface border border-border rounded-xl">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Quick Pay</h3>
+          <div className="p-6 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-xl">
+            <h3 className="text-lg font-semibold text-[var(--finkit-text-main)] mb-4">Quick Pay</h3>
             <div className="grid grid-cols-2 gap-4 justify-between">
               {mockContacts.slice(0, 4).map((contact) => (
                 <motion.button
@@ -198,7 +198,7 @@ export default function Dashboard() {
                   onClick={() => handleQuickPay(contact)}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex flex-col items-center justify-between gap-3 rounded-3xl border border-border bg-surface p-4 text-center transition-all hover:border-success/40"
+                  className="flex flex-col items-center justify-between gap-3 rounded-3xl border border-[var(--finkit-border)] bg-[var(--finkit-surface)] p-4 text-center transition-all hover:border-[var(--finkit-primary)]/40"
                 >
                   <EntityAvatar
                     type="user"
@@ -207,7 +207,7 @@ export default function Dashboard() {
                     fallback={contact.initials}
                     className="w-12 h-12"
                   />
-                  <span className="text-sm text-foreground-secondary truncate">
+                  <span className="text-sm text-[var(--finkit-text-muted)] truncate">
                     {contact.name.split(' ')[0]}
                   </span>
                 </motion.button>
@@ -216,11 +216,11 @@ export default function Dashboard() {
           </div>
 
           {/* Spending Chart */}
-          <div className="p-6 bg-surface border border-border rounded-xl">
+          <div className="p-6 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-xl">
             <div className="mb-4 flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-foreground mb-1">Balance Trend</h3>
-                <p className="text-sm text-foreground-secondary">Last 7 days</p>
+                <h3 className="text-lg font-semibold text-[var(--finkit-text-main)] mb-1">Balance Trend</h3>
+                <p className="text-sm text-[var(--finkit-text-muted)]">Last 7 days</p>
               </div>
             </div>
 
@@ -232,8 +232,8 @@ export default function Dashboard() {
                   onClick={() => setTimeRange(range as any)}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                     timeRange === range
-                      ? 'bg-success text-black'
-                      : 'bg-surface-hover text-foreground-secondary hover:text-foreground'
+                      ? 'bg-[var(--finkit-success)] text-black'
+                      : 'bg-[var(--finkit-surface-hover)] text-[var(--finkit-text-muted)] hover:text-[var(--finkit-text-main)]'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -252,10 +252,10 @@ export default function Dashboard() {
       <motion.div variants={item} className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-foreground">Recent Transactions</h2>
-            <p className="text-foreground/60 text-sm mt-1">Your latest financial activity</p>
+            <h2 className="text-2xl font-bold text-[var(--finkit-text-main)]">Recent Transactions</h2>
+            <p className="text-[var(--finkit-text-main)]/60 text-sm mt-1">Your latest financial activity</p>
           </div>
-          <a href="/transactions" className="text-sm text-success hover:text-success/80 transition-colors font-medium">
+          <a href="/transactions" className="text-sm text-[var(--finkit-success)] hover:text-[var(--finkit-success)]/80 transition-colors font-medium">
             View all →
           </a>
         </div>

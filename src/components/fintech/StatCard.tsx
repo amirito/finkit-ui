@@ -12,7 +12,7 @@ const StatRoot = forwardRef<HTMLDivElement, HTMLMotionProps<'div'> & {
       ref={ref}
       whileHover={{ y: -4 }}
       className={cn(
-        'p-4 bg-surface border border-border rounded-lg cursor-pointer group hover:border-success/30 transition-colors',
+        'p-4 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-lg cursor-pointer group hover:border-[var(--finkit-primary)]/30 transition-colors',
         className
       )}
       {...props}
@@ -29,7 +29,7 @@ const StatLabel = forwardRef<HTMLHeadingElement, ComponentPropsWithoutRef<'h3'> 
   ({ className, children, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn('text-sm font-medium text-foreground-secondary mb-3', className)}
+      className={cn('text-sm font-medium text-[var(--finkit-text-muted)] mb-3', className)}
       {...props}
     >
       {children}
@@ -45,7 +45,7 @@ const StatValue = forwardRef<HTMLParagraphElement, ComponentPropsWithoutRef<'p'>
   ({ className, children, isVisible = true, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn('text-2xl font-bold text-foreground', className)}
+      className={cn('text-2xl font-bold text-[var(--finkit-text-main)]', className)}
       {...props}
     >
       {isVisible ? children : '••••'}
@@ -65,7 +65,7 @@ const StatTrend = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'> & {
         ref={ref}
         className={cn(
           'text-xs font-medium flex items-center space-x-1 mt-2',
-          isPositive ? 'text-success' : 'text-red-400',
+          isPositive ? 'text-[var(--finkit-primary)]' : 'text-[var(--finkit-danger)]',
           className
         )}
         {...props}
@@ -108,7 +108,7 @@ export function StatCard({ label, value, change, icon: Icon, isVisible }: StatCa
     <Stat.Root>
       <div className="flex items-center justify-between mb-3">
         <Stat.Label>{label}</Stat.Label>
-        <Icon className="w-4 h-4 text-foreground-secondary group-hover:text-success transition-colors" />
+        <Icon className="w-4 h-4 text-[var(--finkit-text-muted)] group-hover:text-[var(--finkit-primary)] transition-colors" />
       </div>
       <div className="space-y-2">
         <Stat.Value isVisible={isVisible}>{value}</Stat.Value>

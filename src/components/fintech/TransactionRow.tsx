@@ -8,9 +8,9 @@ import { formatCurrency } from '../../lib/formatters'
 export type TransactionStatus = 'cleared' | 'pending' | 'failed'
 
 const statusStyles: Record<TransactionStatus, string> = {
-  cleared: 'bg-success/10 text-success border-success/20',
-  pending: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-  failed: 'bg-red-500/10 text-red-400 border-red-500/20',
+  cleared: 'bg-[var(--finkit-success)]/10 text-[var(--finkit-success)] border-[var(--finkit-success)]/20',
+  pending: 'bg-[var(--finkit-warning)]/10 text-[var(--finkit-warning)]/80 border-[var(--finkit-warning)]/20',
+  failed: 'bg-[var(--finkit-error)]/10 text-[var(--finkit-error)]/80 border-[var(--finkit-error)]/20',
 }
 
 const TransactionRoot = forwardRef<HTMLDivElement, HTMLMotionProps<'div'> & {
@@ -21,10 +21,10 @@ const TransactionRoot = forwardRef<HTMLDivElement, HTMLMotionProps<'div'> & {
     <motion.div
       ref={ref}
       className={cn(
-        'flex items-center justify-between p-4 bg-surface border border-border rounded-lg cursor-pointer',
+        'flex items-center justify-between p-4 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-lg cursor-pointer',
         className
       )}
-      whileHover={{ backgroundColor: 'var(--surface-hover)' }}
+      whileHover={{ backgroundColor: 'var(--finkit-surface-hover)' }}
       transition={{ duration: 0.2 }}
       onClick={onClick}
       {...props}
@@ -43,7 +43,7 @@ const TransactionIcon = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div
   ({ src, alt, fallback, className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('w-10 h-10 rounded-full bg-border flex items-center justify-center overflow-hidden', className)}
+      className={cn('w-10 h-10 rounded-full bg-[var(--finkit-border)] flex items-center justify-center overflow-hidden', className)}
       {...props}
     >
       {src ? (
@@ -64,14 +64,14 @@ const TransactionInfo = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div
   ({ title, sub, isSubscription, className, ...props }, ref) => (
     <div ref={ref} className={cn('min-w-0', className)} {...props}>
       <div className="flex items-center space-x-2">
-        <h3 className="font-medium text-foreground truncate">{title}</h3>
+        <h3 className="font-medium text-[var(--finkit-text-main)] truncate">{title}</h3>
         {isSubscription && (
-          <span className="px-2 py-1 text-xs bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-full">
+          <span className="px-2 py-1 text-xs bg-[var(--finkit-primary)]/10 text-[var(--finkit-primary)]/70 border border-[var(--finkit-primary)]/20 rounded-full">
             Sub
           </span>
         )}
       </div>
-      <p className="text-sm text-foreground/60 truncate">{sub}</p>
+      <p className="text-sm text-[var(--finkit-text-main)]/60 truncate">{sub}</p>
     </div>
   )
 )
@@ -82,7 +82,7 @@ const TransactionAmount = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<'
 }>(
   ({ value, className, ...props }, ref) => {
     const isPositive = value >= 0
-    const amountColor = isPositive ? 'text-success' : 'text-foreground'
+    const amountColor = isPositive ? 'text-[var(--finkit-success)]' : 'text-[var(--finkit-text-main)]'
     return (
       <span ref={ref} className={cn('text-lg font-mono font-semibold', amountColor, className)} {...props}>
         {isPositive ? '+' : '-'}{formatCurrency(Math.abs(value))}
@@ -152,7 +152,7 @@ export function TransactionRow({
         <Transaction.Icon
           src={iconUrl}
           alt={`${merchant} icon`}
-          fallback={<span className="text-sm font-semibold uppercase text-foreground/80">{merchant.charAt(0)}</span>}
+          fallback={<span className="text-sm font-semibold uppercase text-[var(--finkit-text-main)]/80">{merchant.charAt(0)}</span>}
         />
         <Transaction.Info
           title={merchant}

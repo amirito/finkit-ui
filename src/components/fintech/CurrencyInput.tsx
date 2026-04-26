@@ -51,7 +51,7 @@ const CurrencyInputRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'d
         >
           <div
             ref={ref}
-            className={cn('relative flex items-center w-full min-w-0 bg-surface border border-[#242424] rounded-xl overflow-visible', className)}
+            className={cn('relative flex items-center w-full min-w-0 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-xl overflow-visible', className)}
             {...props}
           >
           {children}
@@ -59,27 +59,27 @@ const CurrencyInputRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'d
             <button
               type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className="flex h-full items-center gap-2 px-4 bg-surface border-l border-[#242424] hover:bg-border/30 transition-colors"
+              className="flex h-full items-center gap-2 px-4 bg-[var(--finkit-surface)] border-l border-[var(--finkit-border)] hover:bg-[var(--finkit-border)]/30 transition-colors"
             >
-              <span className="text-foreground font-medium">{currencies.find(c => c.code === selectedCurrency)?.symbol}</span>
-              <ChevronDownIcon className="h-4 w-4 text-foreground-secondary" />
+              <span className="text-[var(--finkit-text-main)] font-medium">{currencies.find(c => c.code === selectedCurrency)?.symbol}</span>
+              <ChevronDownIcon className="h-4 w-4 text-[var(--finkit-text-muted)]" />
             </button>
             {isOpen && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="absolute right-0 top-full mt-1 bg-surface border border-[#242424] rounded-lg shadow-lg z-[100] min-w-[120px]"
+                className="absolute right-0 top-full mt-1 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-lg shadow-lg z-[100] min-w-[120px]"
               >
                 {currencies.map((curr) => (
                   <button
                     key={curr.code}
                     onClick={() => handleCurrencyChange(curr.code)}
-                    className="w-full px-3 py-2 text-left hover:bg-border/30 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                    className="w-full px-3 py-2 text-left hover:bg-[var(--finkit-border)]/30 transition-colors first:rounded-t-lg last:rounded-b-lg"
                   >
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{curr.symbol}</span>
-                      <span className="text-sm text-foreground-secondary">{curr.code}</span>
+                      <span className="text-sm text-[var(--finkit-text-muted)]">{curr.code}</span>
                     </div>
                   </button>
                 ))}
@@ -98,7 +98,7 @@ const CurrencyInputAddon = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'
   children: ReactNode
 }>(
   ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={cn('flex items-center px-4 py-3 text-foreground-secondary', className)} {...props}>
+    <div ref={ref} className={cn('flex items-center px-4 py-3 text-[var(--finkit-text-muted)]', className)} {...props}>
       {children}
     </div>
   )
@@ -168,7 +168,7 @@ const CurrencyInputField = forwardRef<HTMLInputElement, ComponentPropsWithoutRef
         onChange={handleChange}
         placeholder={placeholder}
         className={cn(
-          'w-full min-w-0 px-4 py-3 bg-transparent text-3xl md:text-4xl font-mono font-bold text-foreground placeholder:text-foreground/40 focus:outline-none',
+          'w-full min-w-0 px-4 py-3 bg-transparent text-3xl md:text-4xl font-mono font-bold text-[var(--finkit-text-main)] placeholder:text-[var(--finkit-text-main)]/40 focus:outline-none',
           className
         )}
         {...props}

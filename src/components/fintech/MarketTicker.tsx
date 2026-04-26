@@ -10,7 +10,7 @@ const MarketTickerRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'di
   ({ className, children, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex items-center gap-2 p-2 bg-surface border border-border rounded-lg', className)}
+      className={cn('flex items-center gap-2 p-2 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-lg', className)}
       {...props}
     >
       {children}
@@ -25,7 +25,7 @@ const MarketTickerSymbol = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<
   ({ symbol, className, ...props }, ref) => (
     <span
       ref={ref}
-      className={cn('font-semibold text-foreground', className)}
+      className={cn('font-semibold text-[var(--finkit-text-main)]', className)}
       {...props}
     >
       {symbol}
@@ -41,7 +41,7 @@ const MarketTickerPrice = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<'
   ({ price, currency = 'USD', className, ...props }, ref) => (
     <span
       ref={ref}
-      className={cn('font-mono tabular-nums text-foreground', className)}
+      className={cn('font-mono tabular-nums text-[var(--finkit-text-main)]', className)}
       {...props}
     >
       {formatCurrency(price, currency)}
@@ -55,13 +55,12 @@ const MarketTickerChange = forwardRef<HTMLSpanElement, ComponentPropsWithoutRef<
 }>(
   ({ change, className, ...props }, ref) => {
     const isPositive = change >= 0
-    const color = isPositive ? 'text-success' : 'text-red-400'
     return (
       <span
         ref={ref}
         className={cn(
           'px-2 py-1 text-xs border rounded-full font-mono tabular-nums',
-          isPositive ? 'bg-success/10 border-success/20 text-success' : 'bg-red-500/10 border-red-500/20 text-red-400',
+          isPositive ? 'bg-[var(--finkit-success)]/10 border-[var(--finkit-success)]/20 text-[var(--finkit-success)]' : 'bg-[var(--finkit-error)]/10 border-[var(--finkit-error)]/20 text-[var(--finkit-error)]',
           className
         )}
         {...props}

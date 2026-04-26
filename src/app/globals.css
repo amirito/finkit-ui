@@ -12,9 +12,65 @@
   --foreground-secondary: #6C757D;
   --success: #059669; /* Adjusted for WCAG contrast on white background */
   --brand: #2563EB; /* Adjusted for WCAG contrast on white background */
-
   --error: #DC2626;
   --warning: #D97706;
+
+  --finkit-background: #FFFFFF;
+  --finkit-surface: #F8F9FA;
+  --finkit-surface-hover: #F1F3F4;
+  --finkit-border: #E9ECEF;
+  --finkit-text-main: #1A1A1A;
+  --finkit-text-muted: #6C757D;
+  --finkit-primary: #2563EB;
+  --finkit-success: var(--finkit-primary);
+  --finkit-warning: #D97706;
+  --finkit-error: #DC2626;
+  --finkit-danger: var(--finkit-error);
+  --finkit-visa: #3b82f6;
+  --finkit-mastercard: #f97316;
+  --finkit-amex: #14b8a6;
+  --finkit-discover: #f59e0b;
+  --finkit-avatar-1: #1f2937;
+  --finkit-avatar-2: #263546;
+  --finkit-avatar-3: #334155;
+  --finkit-avatar-4: #374151;
+  --finkit-avatar-5: #475569;
+  --finkit-avatar-6: #1e293b;
+}
+
+.light {
+  --background: #FFFFFF;
+  --surface: #F8F9FA;
+  --surface-hover: #F1F3F4;
+  --border: #E9ECEF;
+  --foreground: #1A1A1A;
+  --foreground-secondary: #6C757D;
+  --success: #059669;
+  --brand: #2563EB;
+  --error: #DC2626;
+  --warning: #D97706;
+
+  --finkit-background: #FFFFFF;
+  --finkit-surface: #F8F9FA;
+  --finkit-surface-hover: #F1F3F4;
+  --finkit-border: #E9ECEF;
+  --finkit-text-main: #1A1A1A;
+  --finkit-text-muted: #6C757D;
+  --finkit-primary: #2563EB;
+  --finkit-success: var(--finkit-primary);
+  --finkit-warning: #D97706;
+  --finkit-error: #DC2626;
+  --finkit-danger: var(--finkit-error);
+  --finkit-visa: #3b82f6;
+  --finkit-mastercard: #f97316;
+  --finkit-amex: #14b8a6;
+  --finkit-discover: #f59e0b;
+  --finkit-avatar-1: #1f2937;
+  --finkit-avatar-2: #263546;
+  --finkit-avatar-3: #334155;
+  --finkit-avatar-4: #374151;
+  --finkit-avatar-5: #475569;
+  --finkit-avatar-6: #1e293b;
 }
 
 .dark {
@@ -27,13 +83,34 @@
   --foreground-secondary: #A1A1AA;
   --success: #00DB87;
   --brand: #3B82F6;
-
   --error: #FF4B4B;
   --warning: #F59E0B;
+
+  --finkit-background: #050505;
+  --finkit-surface: #121212;
+  --finkit-surface-hover: rgba(36, 36, 36, 0.5);
+  --finkit-border: #242424;
+  --finkit-text-main: #FFFFFF;
+  --finkit-text-muted: #A1A1AA;
+  --finkit-primary: #3B82F6;
+  --finkit-success: var(--finkit-primary);
+  --finkit-warning: #F59E0B;
+  --finkit-error: #FF4B4B;
+  --finkit-danger: var(--finkit-error);
+  --finkit-visa: #3b82f6;
+  --finkit-mastercard: #f97316;
+  --finkit-amex: #14b8a6;
+  --finkit-discover: #f59e0b;
+  --finkit-avatar-1: #1f2937;
+  --finkit-avatar-2: #263546;
+  --finkit-avatar-3: #334155;
+  --finkit-avatar-4: #374151;
+  --finkit-avatar-5: #475569;
+  --finkit-avatar-6: #1e293b;
 }
 
 * {
-  @apply border-border;
+  border-color: var(--finkit-border);
 }
 
 html {
@@ -41,7 +118,7 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--finkit-background);
+  color: var(--finkit-text-main);
   font-family: 'Inter', sans-serif;
 }

@@ -44,8 +44,8 @@ function AmountStep({
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Send Money</h2>
-        <p className="text-foreground/60">Enter the amount you want to send</p>
+        <h2 className="text-2xl font-semibold text-[var(--finkit-text-main)] mb-2">Send Money</h2>
+        <p className="text-[var(--finkit-text-main)]/60">Enter the amount you want to send</p>
       </div>
 
       <div className="w-full">
@@ -64,7 +64,7 @@ function AmountStep({
           <motion.button
             key={value}
             onClick={() => handleQuickAmount(value)}
-            className="px-4 py-2 bg-surface border border-border rounded-full text-foreground hover:bg-surface-hover transition-colors"
+            className="px-4 py-2 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-full text-[var(--finkit-text-main)] hover:bg-[var(--finkit-surface-hover)] transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -77,7 +77,7 @@ function AmountStep({
         {hasQuickPay ? (
           <motion.button
             onClick={onCancel}
-            className="flex-1 py-4 bg-surface border border-border text-foreground font-semibold rounded-2xl hover:bg-surface-hover transition-colors"
+            className="flex-1 py-4 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] text-[var(--finkit-text-main)] font-semibold rounded-2xl hover:bg-[var(--finkit-surface-hover)] transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -87,7 +87,7 @@ function AmountStep({
         <motion.button
           onClick={onNext}
           disabled={!amount || parseFloat(amount) <= 0}
-          className="flex-1 py-4 bg-success text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-4 bg-[var(--finkit-success)] text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -112,8 +112,8 @@ function RecipientStep({
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Choose Recipient</h2>
-        <p className="text-foreground/60">Select who you want to send money to</p>
+        <h2 className="text-2xl font-semibold text-[var(--finkit-text-main)] mb-2">Choose Recipient</h2>
+        <p className="text-[var(--finkit-text-main)]/60">Select who you want to send money to</p>
       </div>
 
       <div className="overflow-x-auto pb-4">
@@ -125,13 +125,13 @@ function RecipientStep({
               className={cn(
                 "flex-shrink-0 flex flex-col items-center gap-3 p-4 rounded-2xl border transition-colors min-w-[100px]",
                 selectedRecipient?.id === contact.id
-                  ? "bg-success/10 border-success"
-                  : "bg-surface border-border hover:bg-surface-hover"
+                  ? "bg-[var(--finkit-success)]/10 border-[var(--finkit-success)]"
+                  : "bg-[var(--finkit-surface)] border-[var(--finkit-border)] hover:bg-[var(--finkit-surface-hover)]"
               )}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-border">
+              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[var(--finkit-border)]">
                 {contact.avatar ? (
                   <img
                     src={contact.avatar}
@@ -139,12 +139,12 @@ function RecipientStep({
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-border flex items-center justify-center text-foreground font-semibold">
+                  <div className="w-full h-full bg-[var(--finkit-border)] flex items-center justify-center text-[var(--finkit-text-main)] font-semibold">
                     {contact.initials}
                   </div>
                 )}
               </div>
-              <span className="text-sm text-foreground font-medium text-center">
+              <span className="text-sm text-[var(--finkit-text-main)] font-medium text-center">
                 {contact.name}
               </span>
             </motion.button>
@@ -155,7 +155,7 @@ function RecipientStep({
       <div className="flex gap-3">
         <motion.button
           onClick={onBack}
-          className="flex-1 py-4 bg-surface border border-border text-foreground font-semibold rounded-2xl hover:bg-surface-hover transition-colors"
+          className="flex-1 py-4 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] text-[var(--finkit-text-main)] font-semibold rounded-2xl hover:bg-[var(--finkit-surface-hover)] transition-colors"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -164,7 +164,7 @@ function RecipientStep({
         <motion.button
           onClick={onNext}
           disabled={!selectedRecipient}
-          className="flex-1 py-4 bg-success text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-4 bg-[var(--finkit-success)] text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -189,8 +189,8 @@ function AccountStep({
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Select Account</h2>
-        <p className="text-foreground/60">Choose funding source for this transfer</p>
+        <h2 className="text-2xl font-semibold text-[var(--finkit-text-main)] mb-2">Select Account</h2>
+        <p className="text-[var(--finkit-text-main)]/60">Choose funding source for this transfer</p>
       </div>
 
       <div className="space-y-3">
@@ -209,7 +209,7 @@ function AccountStep({
       <div className="flex gap-3">
         <motion.button
           onClick={onBack}
-          className="flex-1 py-4 bg-surface border border-border text-foreground font-semibold rounded-2xl hover:bg-surface-hover transition-colors"
+          className="flex-1 py-4 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] text-[var(--finkit-text-main)] font-semibold rounded-2xl hover:bg-[var(--finkit-surface-hover)] transition-colors"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -218,7 +218,7 @@ function AccountStep({
         <motion.button
           onClick={onNext}
           disabled={!selectedAccount}
-          className="flex-1 py-4 bg-success text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-4 bg-[var(--finkit-success)] text-black font-semibold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -272,8 +272,8 @@ function SecurityStep({
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Security Check</h2>
-        <p className="text-foreground/60">Enter your 4-digit PIN to confirm</p>
+        <h2 className="text-2xl font-semibold text-[var(--finkit-text-main)] mb-2">Security Check</h2>
+        <p className="text-[var(--finkit-text-main)]/60">Enter your 4-digit PIN to confirm</p>
       </div>
 
       <motion.div
@@ -300,13 +300,13 @@ function SecurityStep({
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center border border-success">
+          <div className="w-16 h-16 bg-[var(--finkit-success)]/10 rounded-full flex items-center justify-center border border-[var(--finkit-success)]">
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ duration: 0.5, type: 'spring' }}
             >
-              <Check className="w-8 h-8 text-success" />
+              <Check className="w-8 h-8 text-[var(--finkit-success)]" />
             </motion.div>
           </div>
         </motion.div>
@@ -318,15 +318,15 @@ function SecurityStep({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <div className="w-16 h-16 bg-surface border border-border rounded-full flex items-center justify-center">
-            <div className="w-6 h-6 border-2 border-success border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-16 h-16 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-full flex items-center justify-center">
+            <div className="w-6 h-6 border-2 border-[var(--finkit-success)] border-t-transparent rounded-full animate-spin"></div>
           </div>
         </motion.div>
       )}
 
       {isWrong && (
         <motion.p
-          className="text-center text-red-400 text-sm font-medium"
+          className="text-center text-[var(--finkit-error)] text-sm font-medium"
           animate={{ opacity: [0, 1, 0] }}
           transition={{ duration: 0.6 }}
         >
@@ -338,7 +338,7 @@ function SecurityStep({
         <motion.button
           onClick={onBack}
           disabled={isCorrect || isLoading}
-          className="flex-1 py-4 bg-surface border border-border text-foreground font-semibold rounded-2xl hover:bg-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-4 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] text-[var(--finkit-text-main)] font-semibold rounded-2xl hover:bg-[var(--finkit-surface-hover)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -375,21 +375,21 @@ function ConfirmStep({
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Confirm Transfer</h2>
-        <p className="text-foreground/60">Review and send your money</p>
+        <h2 className="text-2xl font-semibold text-[var(--finkit-text-main)] mb-2">Confirm Transfer</h2>
+        <p className="text-[var(--finkit-text-main)]/60">Review and send your money</p>
       </div>
 
-      <div className="bg-surface rounded-2xl p-6 space-y-4 border border-border">
+      <div className="bg-[var(--finkit-surface)] rounded-2xl p-6 space-y-4 border border-[var(--finkit-border)]">
         <div className="flex items-center justify-between">
-          <span className="text-foreground-secondary">Amount</span>
-          <span className="text-2xl font-mono text-success">
+          <span className="text-[var(--finkit-text-muted)]">Amount</span>
+          <span className="text-2xl font-mono text-[var(--finkit-success)]">
             {formatCurrency(parseFloat(amount))}
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-foreground-secondary">To</span>
+          <span className="text-[var(--finkit-text-muted)]">To</span>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full overflow-hidden border border-border">
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-[var(--finkit-border)]">
               {recipient.avatar ? (
                 <img
                   src={recipient.avatar}
@@ -397,23 +397,23 @@ function ConfirmStep({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-border flex items-center justify-center text-foreground font-semibold text-sm">
+                <div className="w-full h-full bg-[var(--finkit-border)] flex items-center justify-center text-[var(--finkit-text-main)] font-semibold text-sm">
                   {recipient.initials}
                 </div>
               )}
             </div>
-            <span className="text-foreground font-medium">{recipient.name}</span>
+            <span className="text-[var(--finkit-text-main)] font-medium">{recipient.name}</span>
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-foreground-secondary">From</span>
+          <span className="text-[var(--finkit-text-muted)]">From</span>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-[var(--finkit-primary)]/10 rounded-lg flex items-center justify-center">
               <span className="text-lg">💳</span>
             </div>
             <div className="text-right">
-              <div className="text-sm font-medium text-foreground capitalize">{account.provider}</div>
-              <div className="text-xs text-foreground-secondary">•••• {account.lastFour}</div>
+              <div className="text-sm font-medium text-[var(--finkit-text-main)] capitalize">{account.provider}</div>
+              <div className="text-xs text-[var(--finkit-text-muted)]">•••• {account.lastFour}</div>
             </div>
           </div>
         </div>
@@ -422,7 +422,7 @@ function ConfirmStep({
       <div className="space-y-4">
         <motion.button
           onClick={onBack}
-          className="w-full py-4 bg-surface border border-border text-foreground font-semibold rounded-2xl hover:bg-surface-hover transition-colors"
+          className="w-full py-4 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] text-[var(--finkit-text-main)] font-semibold rounded-2xl hover:bg-[var(--finkit-surface-hover)] transition-colors"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -431,7 +431,7 @@ function ConfirmStep({
 
         <div className="relative">
           <motion.div
-            className="w-full h-16 bg-success rounded-2xl flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing"
+            className="w-full h-16 bg-[var(--finkit-success)] rounded-2xl flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing"
             style={{ backgroundColor: backgroundOpacity }}
             whileHover={{ scale: 1.02 }}
           >
@@ -441,9 +441,9 @@ function ConfirmStep({
               dragElastic={0.1}
               style={{ x: dragX }}
               onDragEnd={handleDragEnd}
-              className="absolute left-2 w-12 h-12 bg-surface rounded-xl flex items-center justify-center shadow-lg"
+              className="absolute left-2 w-12 h-12 bg-[var(--finkit-surface)] rounded-xl flex items-center justify-center shadow-lg"
             >
-              <ArrowRight className="w-6 h-6 text-success" />
+              <ArrowRight className="w-6 h-6 text-[var(--finkit-success)]" />
             </motion.div>
             <motion.span
               className="relative text-black font-semibold text-lg ml-16"
@@ -572,9 +572,9 @@ export function SendMoneyModal({ open, onOpenChange, onSend, onVerifyPin, initia
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
           >
-            <motion.div className="bg-surface border border-border rounded-3xl p-6 shadow-2xl max-w-md overflow-visible mx-auto" layout>
+            <motion.div className="bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-3xl p-6 shadow-2xl max-w-md overflow-visible mx-auto" layout>
               <div className="flex items-center justify-between mb-6">
-                <Dialog.Title className="text-xl font-semibold text-foreground">
+                <Dialog.Title className="text-xl font-semibold text-[var(--finkit-text-main)]">
                   {step === 'amount' && 'Enter Amount'}
                   {step === 'recipient' && 'Choose Recipient'}
                   {step === 'account' && 'Select Account'}
@@ -584,7 +584,7 @@ export function SendMoneyModal({ open, onOpenChange, onSend, onVerifyPin, initia
                 <Dialog.Close asChild>
                   <button
                     type="button"
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/60 hover:bg-surface-hover transition-colors"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[var(--finkit-border)] text-[var(--finkit-text-main)]/60 hover:bg-[var(--finkit-surface-hover)] transition-colors"
                     aria-label="Close send money modal"
                   >
                     <X className="w-4 h-4" />

@@ -22,17 +22,17 @@ const BalanceCardRoot = forwardRef<HTMLDivElement, BalanceCardRootProps>(
       <div
         ref={ref}
         className={cn(
-          'relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-6 border border-border',
+          'finkit-root relative overflow-hidden rounded-xl bg-gradient-to-br from-[var(--finkit-primary)]/10 via-[var(--finkit-primary)]/5 to-transparent p-6 border border-[var(--finkit-border)]',
           className
         )}
         {...props}
       >
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm font-medium text-foreground-secondary">Total Balance</span>
+          <span className="text-sm font-medium text-[var(--finkit-text-muted)]">Total Balance</span>
           <span className={`text-xs px-2 py-1 rounded-full ${
             trend.direction === 'up'
-              ? 'bg-success/10 text-success'
-              : 'bg-red-400/10 text-red-400'
+              ? 'bg-[var(--finkit-primary)]/10 text-[var(--finkit-primary)]'
+              : 'bg-[var(--finkit-danger)]/10 text-[var(--finkit-danger)]'
           }`}>
             {trend.direction === 'up' ? '↑' : '↓'} {trend.value} {trend.label}
           </span>
@@ -51,7 +51,7 @@ const BalanceCardHeader = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'d
   ({ label, showVisibilityToggle = true, className, children, ...props }, ref) => {
     return (
       <div ref={ref} className={cn('flex items-center justify-between mb-2', className)} {...props}>
-        <h2 className="text-sm font-medium text-foreground-secondary">{label}</h2>
+        <h2 className="text-sm font-medium text-[var(--finkit-text-muted)]">{label}</h2>
         {children}
       </div>
     )
@@ -67,14 +67,14 @@ const BalanceCardValue = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'di
     return (
       <div ref={ref} className={cn('mb-6', className)} {...props}>
         <motion.p
-          className="text-4xl font-mono font-bold text-foreground"
+          className="text-4xl font-mono font-bold text-[var(--finkit-text-main)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         >
           {typeof amount === 'number' ? formatCurrency(amount) : amount}
         </motion.p>
-        <p className="text-sm text-foreground-secondary mt-1">{currency}</p>
+        <p className="text-sm text-[var(--finkit-text-muted)] mt-1">{currency}</p>
       </div>
     )
   }
@@ -98,7 +98,7 @@ const BalanceCardAction = forwardRef<HTMLButtonElement, ComponentPropsWithoutRef
     <button
       ref={ref}
       className={cn(
-        'flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-surface border border-border text-foreground rounded-lg hover:bg-surface-hover transition-colors text-sm font-medium',
+        'flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] text-[var(--finkit-text-main)] rounded-lg hover:bg-[var(--finkit-surface)]/80 transition-colors text-sm font-medium',
         className
       )}
       {...props}

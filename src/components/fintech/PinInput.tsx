@@ -67,7 +67,7 @@ const PinInputRoot = forwardRef<HTMLDivElement, Omit<ComponentPropsWithoutRef<'d
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={handlePaste}
             onFocus={() => setFocusedIndex(index)}
-            className="w-10 h-10 text-center bg-surface border border-border rounded-lg text-foreground font-mono tabular-nums focus:outline-none focus:ring-2 focus:ring-success/20 focus:border-success"
+            className="w-10 h-10 text-center bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-lg text-[var(--finkit-text-main)] font-mono tabular-nums focus:outline-none focus:ring-2 focus:ring-[var(--finkit-success)]/20 focus:border-[var(--finkit-success)]"
           />
         ))}
       </div>

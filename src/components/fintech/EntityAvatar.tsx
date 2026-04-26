@@ -5,7 +5,14 @@ import { cn } from '../../lib/utils'
 
 type EntityType = 'merchant' | 'user'
 
-const avatarPalette = ['#1f2937', '#263546', '#334155', '#374151', '#475569', '#1e293b']
+const avatarPalette = [
+  'var(--finkit-avatar-1)',
+  'var(--finkit-avatar-2)',
+  'var(--finkit-avatar-3)',
+  'var(--finkit-avatar-4)',
+  'var(--finkit-avatar-5)',
+  'var(--finkit-avatar-6)',
+]
 
 const EntityAvatarRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'> & {
   type: EntityType
@@ -41,7 +48,7 @@ const EntityAvatarRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'di
             onError={() => setHasError(true)}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-foreground" style={{ backgroundColor }}>
+          <div className="flex h-full w-full items-center justify-center text-[var(--finkit-text-main)]" style={{ backgroundColor }}>
             {fallback ?? <span className="text-sm font-semibold uppercase">{fallbackLabel}</span>}
           </div>
         )}
@@ -59,7 +66,7 @@ const EntityAvatarBadge = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'d
     <div
       ref={ref}
       className={cn(
-        'absolute -top-1 -right-1 w-5 h-5 bg-surface border border-border rounded-full flex items-center justify-center text-xs font-bold',
+        'absolute -top-1 -right-1 w-5 h-5 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-full flex items-center justify-center text-xs font-bold',
         className
       )}
       {...props}

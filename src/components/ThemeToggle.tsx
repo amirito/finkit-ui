@@ -44,7 +44,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     <motion.button
       onClick={toggleTheme}
       className={cn(
-        "relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface hover:bg-border/30 transition-colors",
+        "relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--finkit-border)] bg-[var(--finkit-surface)] hover:bg-[var(--finkit-border)]/30 transition-colors",
         className
       )}
       whileHover={{ scale: 1.05 }}
@@ -60,7 +60,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
         transition={{ duration: 0.2, ease: 'easeInOut' }}
         className="absolute inset-0 flex items-center justify-center"
       >
-        <Moon className="h-5 w-5 text-foreground" />
+        <Moon className="h-5 w-5 text-[var(--finkit-text-main)]" />
       </motion.div>
 
       <motion.div
@@ -72,7 +72,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
         transition={{ duration: 0.2, ease: 'easeInOut' }}
         className="absolute inset-0 flex items-center justify-center"
       >
-        <Sun className="h-5 w-5 text-foreground" />
+        <Sun className="h-5 w-5 text-[var(--finkit-text-main)]" />
       </motion.div>
     </motion.button>
   )

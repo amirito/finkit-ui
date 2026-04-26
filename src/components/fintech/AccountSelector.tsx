@@ -18,10 +18,10 @@ interface AccountSelectorProps {
 }
 
 const providerAccent: Record<Account['provider'], string> = {
-  visa: 'border-blue-500/80 bg-blue-500/10',
-  mastercard: 'border-orange-500/80 bg-orange-500/10',
-  amex: 'border-teal-500/80 bg-teal-500/10',
-  discover: 'border-amber-500/80 bg-amber-500/10',
+  visa: 'border-[var(--finkit-visa)]/80 bg-[var(--finkit-visa)]/10',
+  mastercard: 'border-[var(--finkit-mastercard)]/80 bg-[var(--finkit-mastercard)]/10',
+  amex: 'border-[var(--finkit-amex)]/80 bg-[var(--finkit-amex)]/10',
+  discover: 'border-[var(--finkit-discover)]/80 bg-[var(--finkit-discover)]/10',
 }
 
 const providerLabels: Record<Account['provider'], string> = {
@@ -50,12 +50,12 @@ export function AccountSelector({ accounts, selectedAccountId, onSelect }: Accou
             className={cn(
               'relative w-full overflow-hidden rounded-3xl border p-4 text-left transition-shadow focus:outline-none min-w-0',
               providerAccent[account.provider],
-              isSelected ? 'border-2 shadow-lg shadow-success/10 bg-surface' : 'border-border bg-surface',
+              isSelected ? 'border-2 shadow-lg bg-[var(--finkit-surface)]' : 'border-[var(--finkit-border)] bg-[var(--finkit-surface)]',
             )}
           >
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#242424] text-white">
+                <div className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-[var(--finkit-border)] text-white">
                   {logoSrc ? (
                     <img
                       src={logoSrc}
@@ -70,19 +70,19 @@ export function AccountSelector({ accounts, selectedAccountId, onSelect }: Accou
                 </div>
 
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-foreground">{primaryLabel}</p>
-                  <p className="truncate text-xs uppercase tracking-[0.22em] text-foreground-secondary">•••• {account.lastFour}</p>
+                  <p className="truncate text-sm font-semibold text-[var(--finkit-text-main)]">{primaryLabel}</p>
+                  <p className="truncate text-xs uppercase tracking-[0.22em] text-[var(--finkit-text-muted)]">•••• {account.lastFour}</p>
                 </div>
               </div>
 
               <div className="text-right">
-                <p className="text-sm text-foreground-secondary">Available</p>
-                <p className="text-lg font-semibold text-foreground">${account.balance.toLocaleString()}</p>
+                <p className="text-sm text-[var(--finkit-text-muted)]">Available</p>
+                <p className="text-lg font-semibold text-[var(--finkit-text-main)]">${account.balance.toLocaleString()}</p>
               </div>
             </div>
 
             {isSelected && (
-              <span className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full bg-success text-white shadow-sm">
+              <span className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--finkit-success)] text-white shadow-sm">
                 <CheckIcon className="h-4 w-4" />
               </span>
             )}

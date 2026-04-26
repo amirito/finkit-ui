@@ -1,0 +1,12 @@
+.finkit-root {
+  --finkit-background: #050505;
+  --finkit-surface: #111111;
+  --finkit-primary: #22c55e;
+  --finkit-text-muted: rgba(255, 255, 255, 0.5);
+  
+  /* Standardizing fonts */
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Now, update your component classes to use these variables */
+/* Example: instead of bg-[#050505], use bg-[var(--finkit-background)] */

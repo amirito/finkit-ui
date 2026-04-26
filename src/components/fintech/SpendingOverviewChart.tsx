@@ -26,10 +26,10 @@ export function SpendingOverviewChart({ data, className }: SpendingOverviewChart
   const pathData = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')
 
   return (
-    <div className={cn('p-6 bg-surface border border-border rounded-xl', className)}>
+    <div className={cn('p-6 bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-xl', className)}>
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground mb-1">Balance Trend</h3>
-        <p className="text-sm text-foreground-secondary">Last {data.length} days</p>
+        <h3 className="text-lg font-semibold text-[var(--finkit-text-main)] mb-1">Balance Trend</h3>
+        <p className="text-sm text-[var(--finkit-text-muted)]">Last {data.length} days</p>
       </div>
 
       <div className="relative h-48">
@@ -63,7 +63,7 @@ export function SpendingOverviewChart({ data, className }: SpendingOverviewChart
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-success"
+            className="text-[var(--finkit-success)]"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
             transition={{ duration: 1.5, ease: 'easeInOut' }}
@@ -85,30 +85,30 @@ export function SpendingOverviewChart({ data, className }: SpendingOverviewChart
         </svg>
 
         {/* Axis labels */}
-        <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 text-xs text-foreground/50">
+        <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 text-xs text-[var(--finkit-text-main)]/50">
           {points.map((point, index) => (
             <span key={index}>{point.label}</span>
           ))}
         </div>
       </div>
 
-      <div className="mt-8 pt-4 border-t border-border">
+      <div className="mt-8 pt-4 border-t border-[var(--finkit-border)]">
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <p className="text-xs text-foreground/60">Highest</p>
-            <p className="text-lg font-semibold text-success">
+            <p className="text-xs text-[var(--finkit-text-main)]/60">Highest</p>
+            <p className="text-lg font-semibold text-[var(--finkit-success)]">
               ${Math.max(...data.map((d) => d.value)).toLocaleString()}
             </p>
           </div>
           <div>
-            <p className="text-xs text-foreground/60">Lowest</p>
-            <p className="text-lg font-semibold text-foreground">
+            <p className="text-xs text-[var(--finkit-text-main)]/60">Lowest</p>
+            <p className="text-lg font-semibold text-[var(--finkit-text-main)]">
               ${Math.min(...data.map((d) => d.value)).toLocaleString()}
             </p>
           </div>
           <div>
-            <p className="text-xs text-foreground/60">Average</p>
-            <p className="text-lg font-semibold text-foreground">
+            <p className="text-xs text-[var(--finkit-text-main)]/60">Average</p>
+            <p className="text-lg font-semibold text-[var(--finkit-text-main)]">
               ${Math.round(data.reduce((a, d) => a + d.value, 0) / data.length).toLocaleString()}
             </p>
           </div>

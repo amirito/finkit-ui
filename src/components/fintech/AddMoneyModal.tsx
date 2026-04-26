@@ -121,12 +121,12 @@ export function AddMoneyModal({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
           >
-            <div className="relative overflow-hidden rounded-[32px] border border-border bg-surface p-6 shadow-2xl">
+            <div className="relative overflow-hidden rounded-[32px] border border-[var(--finkit-border)] bg-[var(--finkit-surface)] p-6 shadow-2xl">
               <AnimatePresence mode="wait">
                 {showSuccess && (
                   <motion.div
                     key="success-bg"
-                    className="pointer-events-none absolute inset-0 bg-success/10"
+                    className="pointer-events-none absolute inset-0 bg-[var(--finkit-success)]/10"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -30 }}
@@ -137,12 +137,12 @@ export function AddMoneyModal({
 
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <Dialog.Title className="text-2xl font-semibold text-foreground">
+                  <Dialog.Title className="text-2xl font-semibold text-[var(--finkit-text-main)]">
                     {step === 'amount' && 'Add Funds'}
                     {step === 'security' && 'Verify Top-Up'}
                     {step === 'confirm' && 'Confirm Top-Up'}
                   </Dialog.Title>
-                  <p className="mt-2 text-sm text-foreground-secondary">
+                  <p className="mt-2 text-sm text-[var(--finkit-text-muted)]">
                     {step === 'amount' && 'Choose a source and enter the amount you want to add.'}
                     {step === 'security' && 'Confirm this top-up with your secure PIN.'}
                     {step === 'confirm' && 'Review the new balance before adding funds.'}
@@ -152,7 +152,7 @@ export function AddMoneyModal({
                 <Dialog.Close asChild>
                   <button
                     type="button"
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground/70 hover:bg-surface-hover transition-colors"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--finkit-border)] text-[var(--finkit-text-main)]/70 hover:bg-[var(--finkit-surface-hover)] transition-colors"
                     aria-label="Close add funds modal"
                   >
                     <X className="h-4 w-4" />
@@ -161,13 +161,13 @@ export function AddMoneyModal({
               </div>
 
               <div className="mt-6 space-y-6">
-                <div className="rounded-3xl border border-border bg-surface p-4">
+                <div className="rounded-3xl border border-[var(--finkit-border)] bg-[var(--finkit-surface)] p-4">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.24em] text-foreground-secondary">Current balance</p>
-                      <p className="text-2xl font-semibold text-foreground">{formatAmount(currentBalance)}</p>
+                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--finkit-text-muted)]">Current balance</p>
+                      <p className="text-2xl font-semibold text-[var(--finkit-text-main)]">{formatAmount(currentBalance)}</p>
                     </div>
-                    <div className="rounded-3xl bg-foreground/5 px-4 py-2 text-sm text-foreground-secondary">
+                    <div className="rounded-3xl bg-foreground/5 px-4 py-2 text-sm text-[var(--finkit-text-muted)]">
                       {statusLabel}
                     </div>
                   </div>
@@ -176,26 +176,26 @@ export function AddMoneyModal({
                     {showSuccess ? (
                       <motion.div
                         key="rising-balance"
-                        className="mt-5 overflow-hidden rounded-3xl bg-success/10 p-4 text-success"
+                        className="mt-5 overflow-hidden rounded-3xl bg-[var(--finkit-success)]/10 p-4 text-[var(--finkit-success)]"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: -10 }}
                         exit={{ opacity: 0, y: 20 }}
                         transition={{ duration: 0.7 }}
                       >
-                        <p className="text-xs uppercase tracking-[0.24em] text-success/70">New balance</p>
+                        <p className="text-xs uppercase tracking-[0.24em] text-[var(--finkit-success)]/70">New balance</p>
                         <p className="text-3xl font-semibold">{formatAmount(previewBalance)}</p>
                       </motion.div>
                     ) : (
                       <motion.div
                         key="preview-balance"
-                        className="mt-5 rounded-3xl border border-border bg-surface p-4"
+                        className="mt-5 rounded-3xl border border-[var(--finkit-border)] bg-[var(--finkit-surface)] p-4"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <p className="text-xs uppercase tracking-[0.24em] text-foreground-secondary">New balance preview</p>
-                        <p className="text-2xl font-semibold text-foreground">{formatAmount(previewBalance)}</p>
+                        <p className="text-xs uppercase tracking-[0.24em] text-[var(--finkit-text-muted)]">New balance preview</p>
+                        <p className="text-2xl font-semibold text-[var(--finkit-text-main)]">{formatAmount(previewBalance)}</p>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -212,8 +212,8 @@ export function AddMoneyModal({
                     >
                       <div className="space-y-5">
                         <div>
-                          <p className="text-sm font-medium text-foreground">From</p>
-                          <p className="text-sm text-foreground-secondary">Select the source for this top-up.</p>
+                          <p className="text-sm font-medium text-[var(--finkit-text-main)]">From</p>
+                          <p className="text-sm text-[var(--finkit-text-muted)]">Select the source for this top-up.</p>
                         </div>
                         <AccountSelector
                           accounts={linkedAccounts}
@@ -222,7 +222,7 @@ export function AddMoneyModal({
                         />
 
                         <div>
-                          <label className="text-sm font-medium text-foreground">Amount</label>
+                          <label className="text-sm font-medium text-[var(--finkit-text-main)]">Amount</label>
                           <div className="mt-3">
                             <CurrencyInput currency="USD" onCurrencyChange={() => {}} className="w-full">
                               <CurrencyInput.Field
@@ -246,10 +246,10 @@ export function AddMoneyModal({
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
                     >
-                      <div className="space-y-6 rounded-3xl border border-border bg-surface p-5">
+                      <div className="space-y-6 rounded-3xl border border-[var(--finkit-border)] bg-[var(--finkit-surface)] p-5">
                         <div>
-                          <p className="text-sm font-medium text-foreground">Secure approval</p>
-                          <p className="text-sm text-foreground-secondary">Enter your 4-digit PIN to complete the top-up.</p>
+                          <p className="text-sm font-medium text-[var(--finkit-text-main)]">Secure approval</p>
+                          <p className="text-sm text-[var(--finkit-text-muted)]">Enter your 4-digit PIN to complete the top-up.</p>
                         </div>
                         <PinInput.Root
                           value={pin}
@@ -259,11 +259,11 @@ export function AddMoneyModal({
                           className="justify-center"
                         />
                         {pinError && (
-                          <p className="text-center text-sm text-red-400">Incorrect PIN. Please try again.</p>
+                          <p className="text-center text-sm text-[var(--finkit-error)]">Incorrect PIN. Please try again.</p>
                         )}
                         {isLoading && (
-                          <div className="flex items-center justify-center gap-2 text-sm text-foreground-secondary">
-                            <div className="h-3 w-3 rounded-full animate-pulse bg-success" />
+                          <div className="flex items-center justify-center gap-2 text-sm text-[var(--finkit-text-muted)]">
+                            <div className="h-3 w-3 rounded-full animate-pulse bg-[var(--finkit-success)]" />
                             Verifying PIN...
                           </div>
                         )}
@@ -279,23 +279,23 @@ export function AddMoneyModal({
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
                     >
-                      <div className="space-y-5 rounded-3xl border border-border bg-surface p-5">
+                      <div className="space-y-5 rounded-3xl border border-[var(--finkit-border)] bg-[var(--finkit-surface)] p-5">
                         <div className="flex items-center justify-between gap-3">
                           <div>
-                            <p className="text-sm uppercase tracking-[0.24em] text-foreground-secondary">Amount to add</p>
-                            <p className="text-3xl font-semibold text-foreground">{formatAmount(amountValue)}</p>
+                            <p className="text-sm uppercase tracking-[0.24em] text-[var(--finkit-text-muted)]">Amount to add</p>
+                            <p className="text-3xl font-semibold text-[var(--finkit-text-main)]">{formatAmount(amountValue)}</p>
                           </div>
-                          <div className="rounded-3xl bg-success/10 px-3 py-2 text-sm font-semibold text-success">
+                          <div className="rounded-3xl bg-[var(--finkit-success)]/10 px-3 py-2 text-sm font-semibold text-[var(--finkit-success)]">
                             {selectedAccount?.type ?? 'Account'}
                           </div>
                         </div>
 
-                        <div className="grid gap-3 rounded-3xl border border-border bg-surface p-4">
-                          <div className="flex items-center justify-between text-sm text-foreground-secondary">
+                        <div className="grid gap-3 rounded-3xl border border-[var(--finkit-border)] bg-[var(--finkit-surface)] p-4">
+                          <div className="flex items-center justify-between text-sm text-[var(--finkit-text-muted)]">
                             <span>Source</span>
                             <span>{selectedAccount ? `${selectedAccount.provider.toUpperCase()} •••• ${selectedAccount.lastFour}` : '-'}</span>
                           </div>
-                          <div className="flex items-center justify-between text-sm text-foreground-secondary">
+                          <div className="flex items-center justify-between text-sm text-[var(--finkit-text-muted)]">
                             <span>New balance</span>
                             <span>{formatAmount(previewBalance)}</span>
                           </div>
@@ -316,7 +316,7 @@ export function AddMoneyModal({
                     }
                     setStep('amount')
                   }}
-                  className="flex-1 rounded-2xl border border-border bg-surface py-4 text-sm font-semibold text-foreground transition-colors hover:bg-surface-hover"
+                  className="flex-1 rounded-2xl border border-[var(--finkit-border)] bg-[var(--finkit-surface)] py-4 text-sm font-semibold text-[var(--finkit-text-main)] transition-colors hover:bg-[var(--finkit-surface-hover)]"
                 >
                   {step === 'amount' ? 'Cancel' : 'Back'}
                 </button>
@@ -327,8 +327,8 @@ export function AddMoneyModal({
                   className={cn(
                     'flex-1 rounded-2xl py-4 text-sm font-semibold transition-all',
                     step === 'confirm'
-                      ? 'bg-success text-black hover:bg-success/90'
-                      : 'bg-primary text-white hover:bg-primary/90',
+                      ? 'bg-[var(--finkit-success)] text-black hover:bg-[var(--finkit-success)]/90'
+                      : 'bg-[var(--finkit-primary)] text-white hover:bg-[var(--finkit-primary)]/90',
                     (!canContinue || (step === 'security' && isLoading)) && 'opacity-50 cursor-not-allowed'
                   )}
                 >

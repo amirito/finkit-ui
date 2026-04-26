@@ -15,14 +15,14 @@ export function Sidebar({ className }: SidebarProps) {
   ]
 
   return (
-    <aside className={cn('w-64 bg-surface border-r border-border h-screen flex flex-col', className)}>
+    <aside className={cn('w-64 bg-[var(--finkit-surface)] border-r border-[var(--finkit-border)] h-screen flex flex-col', className)}>
       {/* Header */}
-      <div className="p-6 border-b border-border">
+      <div className="p-6 border-b border-[var(--finkit-border)]">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-success rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-br from-[var(--finkit-primary)] to-[var(--finkit-success)] rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">F</span>
           </div>
-          <h1 className="text-xl font-bold text-foreground">FinKIT</h1>
+          <h1 className="text-xl font-bold text-[var(--finkit-text-main)]">FinKIT</h1>
         </div>
       </div>
 
@@ -32,22 +32,22 @@ export function Sidebar({ className }: SidebarProps) {
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-center justify-between px-4 py-3 rounded-lg text-foreground/70 hover:text-foreground hover:bg-border transition-colors group"
+            className="flex items-center justify-between px-4 py-3 rounded-lg text-[var(--finkit-text-main)]/70 hover:text-[var(--finkit-text-main)] hover:bg-[var(--finkit-border)] transition-colors group"
           >
             <div className="flex items-center space-x-3">
               <item.icon className="w-5 h-5" />
               <span className="text-sm font-medium">{item.label}</span>
             </div>
             {item.badge && (
-              <span className="text-xs bg-success text-background px-2 py-1 rounded-full">{item.badge}</span>
+              <span className="text-xs bg-[var(--finkit-success)] text-[var(--finkit-background)] px-2 py-1 rounded-full">{item.badge}</span>
             )}
           </Link>
         ))}
       </nav>
 
       {/* Footer */}
-      <div className="p-3 border-t border-border">
-        <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-foreground/70 hover:text-foreground hover:bg-border transition-colors">
+      <div className="p-3 border-t border-[var(--finkit-border)]">
+        <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-[var(--finkit-text-main)]/70 hover:text-[var(--finkit-text-main)] hover:bg-[var(--finkit-border)] transition-colors">
           <LogOut className="w-5 h-5" />
           <span className="text-sm font-medium">Sign Out</span>
         </button>

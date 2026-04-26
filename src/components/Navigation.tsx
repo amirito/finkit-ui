@@ -13,27 +13,27 @@ export function Navigation({ className }: NavigationProps) {
 
   return (
     <>
-      <nav className={`h-16 bg-surface border-b border-border flex items-center justify-between px-6 ${className}`}>
+      <nav className={`h-16 bg-[var(--finkit-surface)] border-b border-[var(--finkit-border)] flex items-center justify-between px-6 ${className}`}>
         {/* Search Bar */}
         <div className="flex-1 max-w-sm">
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="w-full px-4 py-2 bg-border/50 text-foreground/60 rounded-lg flex items-center space-x-2 hover:bg-border transition-colors group"
+            className="w-full px-4 py-2 bg-[var(--finkit-border)]/50 text-[var(--finkit-text-main)]/60 rounded-lg flex items-center space-x-2 hover:bg-[var(--finkit-border)] transition-colors group"
           >
             <Search className="w-4 h-4" />
             <span className="text-sm">Search transactions...</span>
-            <span className="ml-auto text-xs text-foreground/40 group-hover:hidden">⌘K</span>
+            <span className="ml-auto text-xs text-[var(--finkit-text-main)]/40 group-hover:hidden">⌘K</span>
           </button>
         </div>
 
         {/* Right Section */}
         <div className="flex items-center space-x-4 ml-6">
-          <button className="p-2 hover:bg-border rounded-lg transition-colors relative">
-            <Bell className="w-5 h-5 text-foreground/70" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-success rounded-full"></span>
+          <button className="p-2 hover:bg-[var(--finkit-border)] rounded-lg transition-colors relative">
+            <Bell className="w-5 h-5 text-[var(--finkit-text-main)]/70" />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--finkit-success)] rounded-full"></span>
           </button>
-          <button className="p-2 hover:bg-border rounded-lg transition-colors">
-            <User className="w-5 h-5 text-foreground/70" />
+          <button className="p-2 hover:bg-[var(--finkit-border)] rounded-lg transition-colors">
+            <User className="w-5 h-5 text-[var(--finkit-text-main)]/70" />
           </button>
         </div>
       </nav>
@@ -76,9 +76,9 @@ function SearchModal({ isOpen, onClose }: SearchModalProps) {
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-md"
       >
-        <div className="bg-surface border border-border rounded-lg overflow-hidden shadow-lg">
-          <div className="p-4 border-b border-border flex items-center space-x-2">
-            <Search className="w-5 h-5 text-foreground/60" />
+        <div className="bg-[var(--finkit-surface)] border border-[var(--finkit-border)] rounded-lg overflow-hidden shadow-lg">
+          <div className="p-4 border-b border-[var(--finkit-border)] flex items-center space-x-2">
+            <Search className="w-5 h-5 text-[var(--finkit-text-main)]/60" />
             <input
               autoFocus
               type="text"
@@ -88,9 +88,9 @@ function SearchModal({ isOpen, onClose }: SearchModalProps) {
               onKeyDown={(e) => {
                 if (e.key === 'Escape') onClose()
               }}
-              className="flex-1 bg-transparent text-foreground outline-none text-sm"
+              className="flex-1 bg-transparent text-[var(--finkit-text-main)] outline-none text-sm"
             />
-            <span className="text-xs text-foreground/40">ESC</span>
+            <span className="text-xs text-[var(--finkit-text-main)]/40">ESC</span>
           </div>
           <div className="max-h-64 overflow-y-auto">
             {results.length > 0 ? (
@@ -98,16 +98,16 @@ function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 <button
                   key={result.id}
                   onClick={onClose}
-                  className="w-full px-4 py-3 text-left hover:bg-border transition-colors flex items-center justify-between group"
+                  className="w-full px-4 py-3 text-left hover:bg-[var(--finkit-border)] transition-colors flex items-center justify-between group"
                 >
                   <div>
-                    <p className="text-foreground text-sm">{result.label}</p>
-                    <p className="text-xs text-foreground/50">{result.category}</p>
+                    <p className="text-[var(--finkit-text-main)] text-sm">{result.label}</p>
+                    <p className="text-xs text-[var(--finkit-text-main)]/50">{result.category}</p>
                   </div>
                 </button>
               ))
             ) : (
-              <div className="px-4 py-8 text-center text-foreground/50 text-sm">No results found</div>
+              <div className="px-4 py-8 text-center text-[var(--finkit-text-main)]/50 text-sm">No results found</div>
             )}
           </div>
         </div>

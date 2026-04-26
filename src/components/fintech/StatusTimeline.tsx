@@ -17,21 +17,21 @@ interface TimelineItemProps {
 const stateConfig = {
   success: {
     icon: CheckIcon,
-    color: 'text-success',
-    bgColor: 'bg-success',
-    borderColor: 'border-success',
+    color: 'text-[var(--finkit-success)]',
+    bgColor: 'bg-[var(--finkit-success)]',
+    borderColor: 'border-[var(--finkit-success)]',
   },
   pending: {
     icon: ClockIcon,
-    color: 'text-warning',
-    bgColor: 'bg-warning',
-    borderColor: 'border-warning',
+    color: 'text-[var(--finkit-warning)]',
+    bgColor: 'bg-[var(--finkit-warning)]',
+    borderColor: 'border-[var(--finkit-warning)]',
   },
   current: {
     icon: CircleIcon,
-    color: 'text-primary',
-    bgColor: 'bg-primary',
-    borderColor: 'border-primary',
+    color: 'text-[var(--finkit-primary)]',
+    bgColor: 'bg-[var(--finkit-primary)]',
+    borderColor: 'border-[var(--finkit-primary)]',
   },
 }
 
@@ -67,7 +67,7 @@ const TimelineItem = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'> 
             className={cn(
               'w-8 h-8 rounded-full border-2 flex items-center justify-center',
               config.borderColor,
-              state === 'success' ? config.bgColor : 'bg-surface'
+              state === 'success' ? config.bgColor : 'bg-[var(--finkit-surface)]'
             )}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -77,18 +77,18 @@ const TimelineItem = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'> 
           </motion.div>
           <div className={cn(
             'w-0.5 h-12 mt-2',
-            state === 'success' ? 'bg-success' : 'bg-border'
+            state === 'success' ? 'bg-[var(--finkit-success)]' : 'bg-[var(--finkit-border)]'
           )} />
         </div>
         <div className="flex-1 pb-8">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-foreground">{title}</h3>
+            <h3 className="text-sm font-medium text-[var(--finkit-text-main)]">{title}</h3>
             {timestamp && (
-              <span className="text-xs text-foreground-secondary">{timestamp}</span>
+              <span className="text-xs text-[var(--finkit-text-muted)]">{timestamp}</span>
             )}
           </div>
           {description && (
-            <p className="text-sm text-foreground-secondary mt-1">{description}</p>
+            <p className="text-sm text-[var(--finkit-text-muted)] mt-1">{description}</p>
           )}
         </div>
         </div>

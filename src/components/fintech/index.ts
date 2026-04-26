@@ -16,3 +16,4 @@ export { StatusTimeline } from './StatusTimeline'
 export { UsageMeter } from './UsageMeter'
 export * from '../../lib/formatters';
 export * from '../../lib/utils';
+export * from '../../providers/FinKitProvider';
