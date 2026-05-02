@@ -21,6 +21,11 @@ export { Card, type CardProps } from './Card'
 export { Toggle, type ToggleProps } from './Toggle'
 export { RadioGroup, type RadioGroupRootProps, type RadioGroupItemProps } from './RadioGroup'
 export { Modal, type ModalProps } from './Modal'
+export { Skeleton, type SkeletonProps, type SkeletonVariant } from './Skeleton'
+export { Avatar, AvatarGroup, type AvatarProps, type AvatarGroupRootProps, type AvatarGroupCountProps } from './Avatar'
+export { Tooltip, type TooltipProps } from './Tooltip'
+export { ProgressBar, ProgressCircle, type ProgressBarProps, type ProgressCircleProps } from './Progress'
+export { Dropdown, DropdownMenu, type DropdownRootProps, type DropdownTriggerProps, type DropdownContentProps, type DropdownItemProps } from './DropdownMenu'
 export * from '../../lib/formatters';
 export * from '../../lib/utils';
 export * from '../../providers/FinKitProvider';
